@@ -85,12 +85,6 @@ const SweetToast = ({children}) => {
 
     }
 
-
-
-
-
-    
-
     const ToastInfo={
         successToast,
         deleteToast,

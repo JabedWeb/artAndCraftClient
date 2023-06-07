@@ -13,26 +13,31 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, watch } = useForm();
 
   const handleRegister = (data) => {
-    const { name, email, password, photo } = data;
+    const { name, email, password, confirmPassword, photo } = data;
 
     // Validate the form fields
-    if (!email || !password || !name || !photo) {
+    if (!email || !password || !confirmPassword || !name || !photo) {
       alertToast();
       return;
-    } else {
-      loginUser(email, password)
-        .then((result) => {
-          const user = result.user;
-          updateNameAndPhoto(user, name, photo);
-        })
-        .catch((error) => {
-          wrongToast();
-          console.log(error);
-        });
     }
+
+    if (password !== confirmPassword) {
+      alertToast('Passwords do not match');
+      return;
+    }
+
+    loginUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        updateNameAndPhoto(user, name, photo);
+      })
+      .catch((error) => {
+        wrongToast();
+        console.log(error);
+      });
   };
 
   const updateNameAndPhoto = (user, name, photo) => {
@@ -85,6 +90,15 @@ const Register = () => {
                 className={`form-control ${errors.password ? 'is-invalid' : ''}`}
               />
               {errors.password && <div className="invalid-feedback">Password is required</div>}
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Confirm Password</label>
+              <input
+                {...register('confirmPassword', { required: true, validate: value => value === watch('password') })}
+                type="password"
+                className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
+              />
+              {errors.confirmPassword && <div className="invalid-feedback">Passwords do not match</div>}
             </div>
             <div className="mb-3">
               <label className="form-label">Photo</label>
