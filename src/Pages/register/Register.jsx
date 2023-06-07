@@ -8,27 +8,21 @@ import { ToastContext } from '../../providers/AuthProvider/SweetToast';
 import { authContext } from '../../providers/AuthProvider/AuthProvider';
 
 const Register = () => {
+  const navigate = useNavigate();
   const { loginUser } = useContext(authContext);
   const { successToast, alertToast, wrongToast } = useContext(ToastContext);
 
-  const navigate = useNavigate();
-
-  const { register, handleSubmit, formState: { errors }, watch } = useForm();
+  const { handleSubmit, register, formState: { errors }, watch } = useForm();
 
   const handleRegister = (data) => {
     const { name, email, password, confirmPassword, photo } = data;
-
-    // Validate the form fields
-    if (!email || !password || !confirmPassword || !name || !photo) {
-      alertToast();
-      return;
-    }
-
+    // Validate password
     if (password !== confirmPassword) {
       alertToast('Passwords do not match');
       return;
     }
 
+    // Proceed with registration if password is valid
     loginUser(email, password)
       .then((result) => {
         const user = result.user;
@@ -78,27 +72,35 @@ const Register = () => {
                 className={`form-control ${errors.email ? 'is-invalid' : ''}`}
               />
               {errors.email && <div className="invalid-feedback">Email is required</div>}
-              <div id="emailHelp" className="form-text">
-                We'll never share your email with anyone else.
-              </div>
+              <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
             </div>
             <div className="mb-3">
               <label className="form-label">Password</label>
               <input
-                {...register('password', { required: true })}
+                {...register('password', {
+                  required: true,
+                  minLength: 6,
+                  pattern: /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])/,
+                })}
                 type="password"
                 className={`form-control ${errors.password ? 'is-invalid' : ''}`}
               />
-              {errors.password && <div className="invalid-feedback">Password is required</div>}
+              {errors.password && errors.password.type === 'required' && <div className="invalid-feedback">Password is required</div>}
+              {errors.password && errors.password.type === 'minLength' && <div className="invalid-feedback">Password should be at least 6 characters long</div>}
+              {errors.password && errors.password.type === 'pattern' && <div className="invalid-feedback">Password should contain at least one capital letter and one special character</div>}
             </div>
             <div className="mb-3">
               <label className="form-label">Confirm Password</label>
               <input
-                {...register('confirmPassword', { required: true, validate: value => value === watch('password') })}
+                {...register('confirmPassword', {
+                  required: true,
+                  validate: (value) => value === watch('password'),
+                })}
                 type="password"
                 className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
               />
-              {errors.confirmPassword && <div className="invalid-feedback">Passwords do not match</div>}
+              {errors.confirmPassword && errors.confirmPassword.type === 'required' && <div className="invalid-feedback">Confirm Password is required</div>}
+              {errors.confirmPassword && errors.confirmPassword.type === 'validate' && <div className="invalid-feedback">Passwords do not match</div>}
             </div>
             <div className="mb-3">
               <label className="form-label">Photo</label>
@@ -109,13 +111,9 @@ const Register = () => {
               />
               {errors.photo && <div className="invalid-feedback">Photo is required</div>}
             </div>
-            <button style={{ backgroundColor: '#617A55', borderRadius: '4px' }} type="submit" className="btn text-light mb-3">
-              Register
-            </button>
+            <button style={{ backgroundColor: "#617A55", borderRadius: "4px" }} type="submit" className="btn text-light mb-3">Register</button>
           </form>
-          <h5 className="text-center mt-2">
-            Already have an account? <Link style={{ color: '#617A55' }} className="text-decoration-none" to={'/login'}>Login</Link>
-          </h5>
+          <h5 className="text-center mt-2">Already have an account? <Link style={{ color: "#617A55" }} className="text-decoration-none" to="/login">Login</Link></h5>
         </Col>
       </Row>
     </Container>
