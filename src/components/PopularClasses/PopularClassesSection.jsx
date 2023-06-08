@@ -1,10 +1,19 @@
-import React from 'react';
-import classesData from '../../assets/classes.json';
+import React, { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import './PopularClassesSection.css'; // Import the custom CSS file
 
 const PopularClassesSection = () => {
-  const sortedClasses = classesData.sort((a, b) => b.students - a.students);
+
+  const [classesData, setClassesData] = useState([]);
+
+  useEffect(() => {
+    // Fetch the classes data from the API
+    fetch('http://localhost:5000/classes')
+      .then((response) => response.json())
+      .then((data) => setClassesData(data))
+      .catch((error) => console.error(error));
+  }, []);
+  const sortedClasses = classesData.sort((a, b) => b.EnrolledStudents - a.EnrolledStudents);
   const topClasses = sortedClasses.slice(0, 6);
 
   return (
@@ -20,7 +29,7 @@ const PopularClassesSection = () => {
               <Card.Body>
                 <Card.Title>{classItem.name}</Card.Title>
                 <Card.Text>Instructor: {classItem.instructor}</Card.Text>
-                <Card.Text>Students: {classItem.students}</Card.Text>
+                <Card.Text>Students: {classItem.EnrolledStudents}</Card.Text>
                 <Card.Text>Available Seats: {classItem.availableSeats}</Card.Text>
                 <Card.Text>Price: ${classItem.price}</Card.Text>
               </Card.Body>

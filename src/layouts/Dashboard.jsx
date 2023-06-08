@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Col, Nav, Row, Tab } from 'react-bootstrap';
 import ManageClasses from '../Pages/Dashboard/ManageClasses';
 import MyEnrolledClasses from '../Pages/Dashboard/MyEnrolledClasses';
@@ -7,11 +7,31 @@ import ManageUsers from '../Pages/Dashboard/ManageUsers';
 import AddClass from '../Pages/Dashboard/AddClass';
 import MySelectedClasses from '../Pages/Dashboard/MySelectedClasses';
 import MyPayments from '../Pages/Dashboard/MyPayments';
+import { authContext } from '../providers/AuthProvider/AuthProvider';
 
 export const Dashboard = () => {
-  // State to store the user role
-  const [userRole, setUserRole] = useState('instructor'); // Replace 'student' with the actual user role
 
+    const {user}=useContext(authContext);
+  // State to store the user role
+  const [userRole, setUserRole] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      // Fetch the user role from the API by the user.email
+      fetch(`http://localhost:5000/users?email=${user.email}`, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setUserRole(data[0].role);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user]);
   return (
     <>
       <div className="container mt-5">
