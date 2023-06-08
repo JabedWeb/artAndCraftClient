@@ -1,28 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Table, Modal, Form } from 'react-bootstrap';
 
 const ManageClasses = () => {
-  const [classes, setClasses] = useState([
-    {
-      id: 1,
-      className: 'Art 101',
-      instructor: 'John Doe',
-      email: 'johndoe@example.com',
-      availableSeats: 10,
-      price: 50,
-      status: 'pending',
-    },
-    {
-        id: 2,
-        className: 'Art 102',
-        instructor: 'John Doe',
-        email: 'jabedhasan231@gmail.com',
-        availableSeats: 10,
-        price: 50,
-        status: 'pending',
-        }
+  const [classes, setClasses] = useState([]);
 
-  ]);
+  useEffect(() => {
+    // Fetch the classes data from the API
+    fetch('http://localhost:5000/classes')
+      .then((response) => response.json())
+      .then((data) => setClasses(data))
+      .catch((error) => console.error(error));
+  }, []);
 
   const [selectedClass, setSelectedClass] = useState(null);
   const [feedback, setFeedback] = useState('');

@@ -18,7 +18,7 @@ export const Dashboard = () => {
   useEffect(() => {
     if (user) {
       // Fetch the user role from the API by the user.email
-      fetch(`http://localhost:5000/users?email=${user.email}`, {
+      fetch(`http://localhost:5000/users/${user.email}`, {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
@@ -27,11 +27,12 @@ export const Dashboard = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setUserRole(data[0].role);
+          setUserRole(data.role);
         })
         .catch((err) => console.log(err));
     }
   }, [user]);
+  console.log(userRole);
   return (
     <>
       <div className="container mt-5">
