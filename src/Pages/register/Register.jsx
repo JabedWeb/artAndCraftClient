@@ -16,6 +16,7 @@ const Register = () => {
 
   const handleRegister = (data) => {
     const { name, email, password, confirmPassword, photo } = data;
+    console.log(email);
     // Validate password
     if (password !== confirmPassword) {
       alertToast('Passwords do not match');
@@ -26,7 +27,17 @@ const Register = () => {
     loginUser(email, password)
       .then((result) => {
         const user = result.user;
-        updateNameAndPhoto(user, name, photo);
+        updateNameAndPhoto(user, name,email. photo);
+        const NewUser = { name: name, email: email }
+        console.log("NewUser", NewUser);
+        console.log("NewUser", email);
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(NewUser)
+        })
       })
       .catch((error) => {
         wrongToast();
@@ -34,12 +45,14 @@ const Register = () => {
       });
   };
 
-  const updateNameAndPhoto = (user, name, photo) => {
+  const updateNameAndPhoto = (user, name,email, photo) => {
+    console.log("NewUser", email);
     updateProfile(user, {
       displayName: name,
       photoURL: photo,
     })
       .then((result) => {
+        
         successToast();
         navigate('/');
       })

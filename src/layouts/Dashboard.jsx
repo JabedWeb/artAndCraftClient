@@ -3,13 +3,14 @@ import { Col, Nav, Row, Tab } from 'react-bootstrap';
 import ManageClasses from '../Pages/Dashboard/ManageClasses';
 import MyEnrolledClasses from '../Pages/Dashboard/MyEnrolledClasses';
 import MyClass from '../Pages/Dashboard/MyClasses';
-import MySelectedClasss from '../Pages/Dashboard/MySelectedClasss';
 import ManageUsers from '../Pages/Dashboard/ManageUsers';
 import AddClass from '../Pages/Dashboard/AddClass';
+import MySelectedClasses from '../Pages/Dashboard/MySelectedClasses';
+import MyPayments from '../Pages/Dashboard/MyPayments';
 
 export const Dashboard = () => {
   // State to store the user role
-  const [userRole, setUserRole] = useState('instructor'); // Replace 'student' with the actual user role
+  const [userRole, setUserRole] = useState('student'); // Replace 'student' with the actual user role
 
   return (
     <>
@@ -25,6 +26,9 @@ export const Dashboard = () => {
                     </Nav.Item>
                     <Nav.Item>
                       <Nav.Link eventKey="my-enrolled-classes">My Enrolled Classes</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="my-payemnts">My Payments</Nav.Link>
                     </Nav.Item>
                   </>
                 )}
@@ -56,10 +60,13 @@ export const Dashboard = () => {
                 {userRole === 'student' && (
                   <>
                     <Tab.Pane eventKey="my-selected-classes">
-                      <MySelectedClasss />
+                      <MySelectedClasses />
                     </Tab.Pane>
                     <Tab.Pane eventKey="my-enrolled-classes">
                       <MyEnrolledClasses />
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="my-payemnts">
+                      <MyPayments />
                     </Tab.Pane>
                   </>
                 )}

@@ -60,7 +60,7 @@ const SweetToast = ({children}) => {
         // message your toy has been added
         return Swal.fire({
             icon: 'success',
-            title: 'Your toy has been added',
+            title: 'Your class has been added',
             showConfirmButton: false,
             timer: 1500
             })

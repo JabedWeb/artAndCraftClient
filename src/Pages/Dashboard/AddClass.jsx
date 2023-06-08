@@ -1,85 +1,81 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
-const AddClass = ({ loggedInInstructor }) => {
-  const [className, setClassName] = useState('');
-  const [classImage, setClassImage] = useState('');
-  const [totalSeats, setTotalSeats] = useState(0);
-  const [price, setPrice] = useState(0);
+const AddClass = () => {
 
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const classData = {
+    const form =e.target;
+    const name=form.instructorName.value;
+    const email=form.instructorEmail.value;
+    const className = form.className.value;
+    const classImage = form.classImage.value;
+    const totalSeats = form.total_seats.value;
+    const price = form.price.value;
+
+    const newClass = {
+      name,
+      email,
       className,
       classImage,
-      instructorName: "Jabed",
-      instructorEmail: "jabedhasan231@gmail.com",
       totalSeats,
-      price,
-      status: 'pending',
+      price
     };
 
-    try {
-      const response = await fetch('https://example.com/api/classes', {
+      fetch('http://localhost:5000/classes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(classData),
-      });
-
-      if (response.ok) {
-        // Class successfully added, perform any necessary actions
-        console.log('Class added successfully');
-      } else {
-        // Handle API error or validation errors
-        console.log('Error adding class');
-      }
-    } catch (error) {
-      // Handle network or server error
-      console.log('Error:', error.message);
-    }
-
-    // Reset form fields
-    setClassName('');
-    setClassImage('');
-    setTotalSeats(0);
-    setPrice(0);
-  };
+        body: JSON.stringify(newClass),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Success:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    };
+    
 
   return (
     <div>
       <h2>Add a Class</h2>
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="className">
-          <Form.Label>Class Name</Form.Label>
-          <Form.Control type="text" value={className} onChange={(e) => setClassName(e.target.value)} />
-        </Form.Group>
-
-        <Form.Group controlId="classImage">
-          <Form.Label>Class Image</Form.Label>
-          <Form.Control type="text" value={classImage} onChange={(e) => setClassImage(e.target.value)} />
-        </Form.Group>
-
-        <Form.Group controlId="instructorName">
+        
+      <Form.Group controlId="instructorName">
           <Form.Label>Instructor Name</Form.Label>
-          <Form.Control type="text" value='NAME' readOnly />
+          <Form.Control type="text" name='instructorName' />
         </Form.Group>
 
         <Form.Group controlId="instructorEmail">
           <Form.Label>Instructor Email</Form.Label>
-          <Form.Control type="email" value='email' readOnly />
+          <Form.Control type="email" name='instructorEmail'/>
         </Form.Group>
+
+
+        <Form.Group controlId="className">
+          <Form.Label>Class Name</Form.Label>
+          <Form.Control type="text" name='className' />
+        </Form.Group>
+
+        <Form.Group controlId="classImage">
+          <Form.Label>Class Image</Form.Label>
+          <Form.Control type="text" name='classImage'  />
+        </Form.Group>
+
 
         <Form.Group controlId="TotalSeats">
           <Form.Label>Total Seats</Form.Label>
-          <Form.Control type="number" value={totalSeats} onChange={(e) => setTotalSeats(Number(e.target.value))} />
+          <Form.Control type="number" name='total_seats' />
         </Form.Group>
 
         <Form.Group controlId="price">
           <Form.Label>Price</Form.Label>
-          <Form.Control type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
+          <Form.Control type="number" name='price' />
         </Form.Group>
 
         <Button variant="primary" type="submit">
