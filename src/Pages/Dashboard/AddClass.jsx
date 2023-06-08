@@ -1,28 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { ToastContext } from '../../providers/AuthProvider/SweetToast';
 
 const AddClass = () => {
-
+  const { addedToast, wrongToast } = useContext(ToastContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const form =e.target;
-    const name=form.instructorName.value;
+    const instructor=form.instructorName.value;
     const email=form.instructorEmail.value;
-    const className = form.className.value;
-    const classImage = form.classImage.value;
-    const totalSeats = form.total_seats.value;
-    const price = form.price.value;
+    const name = form.className.value;
+    const image = form.classImage.value;
+    const total_sets = form.total_seats.value;
+    const price = parseInt(form.price.value);
 
     const newClass = {
       name,
+      instructor,
       email,
-      className,
-      classImage,
-      totalSeats,
-      price
+      image,
+      EnrolledStudents: 0,
+      total_sets,
+      price,
+      status: 'pending'
     };
+    
+    newClass.availableSeats = newClass.total_sets - newClass.EnrolledStudents;
 
       fetch('http://localhost:5000/classes', {
         method: 'POST',
@@ -33,13 +38,17 @@ const AddClass = () => {
       })
         .then((response) => response.json())
         .then((data) => {
+          addedToast();
           console.log('Success:', data);
+          // form.reset();
+          form.reset();
         })
         .catch((error) => {
           console.error('Error:', error);
+          wrongToast();
         });
     };
-    
+
 
   return (
     <div>

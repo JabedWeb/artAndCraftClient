@@ -10,7 +10,7 @@ import MyPayments from '../Pages/Dashboard/MyPayments';
 
 export const Dashboard = () => {
   // State to store the user role
-  const [userRole, setUserRole] = useState('student'); // Replace 'student' with the actual user role
+  const [userRole, setUserRole] = useState('instructor'); // Replace 'student' with the actual user role
 
   return (
     <>

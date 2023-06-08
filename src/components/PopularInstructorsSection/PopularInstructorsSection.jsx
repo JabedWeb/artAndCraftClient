@@ -1,32 +1,38 @@
-import React from 'react';
-import instructorsData from '../../assets/instructors.json';
-import classesData from '../../assets/classes.json';
-import './PopularInstructorsSection.css'; // Import custom CSS file
-import { Card, Row, Col } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Card, Col, Row } from 'react-bootstrap';
 
 const PopularInstructorsSection = () => {
-  // Sort instructors based on the number of students in their classes in descending order
-  const sortedInstructors = instructorsData.sort((a, b) => {
-    const totalStudentsA = a.classNames.reduce(
-      (total, className) =>
-        total +
-        classesData
-          .filter((classItem) => classItem.instructor === a.name && classItem.name === className)
-          .reduce((sum, classItem) => sum + classItem.students, 0),
-      0
-    );
+  const [classesData, setClassesData] = useState([]);
 
-    const totalStudentsB = b.classNames.reduce(
-      (total, className) =>
-        total +
-        classesData
-          .filter((classItem) => classItem.instructor === b.name && classItem.name === className)
-          .reduce((sum, classItem) => sum + classItem.students, 0),
-      0
-    );
+  useEffect(() => {
+    // Fetch the classes data from the API
+    fetch('http://localhost:5000/classes')
+      .then((response) => response.json())
+      .then((data) => setClassesData(data))
+      .catch((error) => console.error(error));
+  }, []);
 
-    return totalStudentsB - totalStudentsA;
-  });
+  // Generate instructors' data based on the classes' data and calculate total students
+  const instructorsData = classesData.reduce((instructors, classItem) => {
+    const { instructor } = classItem;
+    const existingInstructor = instructors.find((instructorItem) => instructorItem.name === instructor);
+
+    if (existingInstructor) {
+      existingInstructor.classNames.push(classItem.name);
+      existingInstructor.totalStudents += classItem.EnrolledStudents;
+    } else {
+      instructors.push({
+        name: instructor,
+        classNames: [classItem.name],
+        totalStudents: classItem.EnrolledStudents,
+      });
+    }
+
+    return instructors;
+  }, []);
+
+  // Sort instructors based on the total number of students in descending order
+  const sortedInstructors = instructorsData.sort((a, b) => b.totalStudents - a.totalStudents);
 
   // Get the top 6 instructors
   const topInstructors = sortedInstructors.slice(0, 6);
@@ -36,12 +42,13 @@ const PopularInstructorsSection = () => {
       <h2 className='text-center'>Popular Instructors</h2>
       <Row>
         {topInstructors.map((instructor) => (
-          <Col key={instructor.id} sm={6} md={3} className="mb-4">
-            <Card className="class-card">
-              <Card.Img className="class-image" variant="top" src={instructor.image} alt={instructor.name} />
+          <Col key={instructor.name} sm={6} md={3} className='mb-4'>
+            <Card className='class-card'>
+              <Card.Img className='class-image' variant='top' src={instructor.image} alt={instructor.name} />
               <Card.Body>
                 <Card.Title>{instructor.name}</Card.Title>
-                <Card.Text>Students: {getTotalStudents(instructor)}</Card.Text>
+                <Card.Text>Students: {instructor.totalStudents}</Card.Text>
+                <Card.Text>Classes: {instructor.classNames.join(', ')}</Card.Text>
               </Card.Body>
             </Card>
           </Col>
@@ -49,18 +56,6 @@ const PopularInstructorsSection = () => {
       </Row>
     </div>
   );
-};
-
-// Helper function to calculate the total number of students for an instructor's courses
-const getTotalStudents = (instructor) => {
-  let totalStudents = 0;
-  instructor.classNames.forEach((className) => {
-    const classItem = classesData.find((item) => item.name === className && item.instructor === instructor.name);
-    if (classItem) {
-      totalStudents += classItem.students;
-    }
-  });
-  return totalStudents;
 };
 
 export default PopularInstructorsSection;
