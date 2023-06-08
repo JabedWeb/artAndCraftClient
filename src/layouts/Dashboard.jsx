@@ -7,7 +7,7 @@ import MySelectedClasss from '../Pages/Dashboard/MySelectedClasss';
 
 export const Dashboard = () => {
   // State to store the user role
-  const [userRole, setUserRole] = useState('student'); // Replace 'student' with the actual user role
+  const [userRole, setUserRole] = useState('admin'); // Replace 'student' with the actual user role
 
   return (
     <>
