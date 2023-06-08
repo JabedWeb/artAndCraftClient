@@ -30,9 +30,9 @@ const Header = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto navbar_custom">
           <Link className='text-decoration-none text-light' to={'/'}>Home</Link>
-            <Link className='text-decoration-none text-light' to={'/Instructor'}>Instructors</Link>
+            <Link className='text-decoration-none text-light' to={'/instructors'}>Instructors</Link>
            
-               <Link className='text-decoration-none text-light ' to={'/Classes'}>Classes</Link>
+               <Link className='text-decoration-none text-light ' to={'/classes'}>Classes</Link>
           </Nav>
           <Nav className='align-items-center'>
             {
