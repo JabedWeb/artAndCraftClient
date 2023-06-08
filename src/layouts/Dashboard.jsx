@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Col, Nav, Row, Tab } from 'react-bootstrap';
 import ManageClasses from '../Pages/Dashboard/ManageClasses';
 import MyEnrolledClasses from '../Pages/Dashboard/MyEnrolledClasses';
-import Myclasses from '../Pages/Dashboard/Myclasses';
+import MyClass from '../Pages/Dashboard/MyClasses';
 import MySelectedClasss from '../Pages/Dashboard/MySelectedClasss';
+import ManageUsers from '../Pages/Dashboard/ManageUsers';
+import AddClass from '../Pages/Dashboard/AddClass';
 
 export const Dashboard = () => {
   // State to store the user role
-  const [userRole, setUserRole] = useState('admin'); // Replace 'student' with the actual user role
+  const [userRole, setUserRole] = useState('instructor'); // Replace 'student' with the actual user role
 
   return (
     <>
@@ -27,14 +29,25 @@ export const Dashboard = () => {
                   </>
                 )}
                 {userRole === 'instructor' && (
-                  <Nav.Item>
-                    <Nav.Link eventKey="my-classes">My Classes</Nav.Link>
-                  </Nav.Item>
+                    <>
+                    <Nav.Item>
+                      <Nav.Link eventKey="add-class">Add Class</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="my-classes">My Classes</Nav.Link>
+                    </Nav.Item>
+
+                    </>
                 )}
                 {userRole === 'admin' && (
+                 <>
                   <Nav.Item>
                     <Nav.Link eventKey="manage-classes">Manage Classes</Nav.Link>
                   </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="manage-users">Manage Users</Nav.Link>
+                  </Nav.Item>
+                 </>
                 )}
               </Nav>
             </Col>
@@ -51,14 +64,25 @@ export const Dashboard = () => {
                   </>
                 )}
                 {userRole === 'instructor' && (
-                  <Tab.Pane eventKey="my-classes">
-                    <Myclasses />
+                  <>
+                  <Tab.Pane eventKey="add-class">
+                    <AddClass />
                   </Tab.Pane>
+                  <Tab.Pane eventKey="my-classes">
+                    <MyClass />
+                  </Tab.Pane>
+
+                  </>
                 )}
                 {userRole === 'admin' && (
+                 <>
                   <Tab.Pane eventKey="manage-classes">
                     <ManageClasses />
                   </Tab.Pane>
+                  <Tab.Pane eventKey="manage-users">
+                    <ManageUsers />
+                  </Tab.Pane>
+                 </>
                 )}
               </Tab.Content>
             </Col>

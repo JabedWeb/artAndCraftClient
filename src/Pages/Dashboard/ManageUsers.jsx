@@ -54,7 +54,7 @@ const ManageUsers = () => {
                 >
                   Make Instructor
                 </Button>
-                <Button
+                <Button className='mx-1'
                   variant="danger"
                   disabled={user.role === 'admin'}
                   onClick={() => handleMakeAdmin(user.id)}
