@@ -7,6 +7,9 @@ import PageTitle from '../../components/PageTitle/PageTitle';
 import { ToastContext } from '../../providers/AuthProvider/SweetToast';
 import { authContext } from '../../providers/AuthProvider/AuthProvider';
 
+
+const img_token=import.meta.env.VITE_imag_upload_token;
+console.log("img_token",img_token);
 const Register = () => {
   const navigate = useNavigate();
   const { loginUser } = useContext(authContext);
@@ -14,36 +17,63 @@ const Register = () => {
 
   const { handleSubmit, register, formState: { errors }, watch } = useForm();
 
+  const img_hosting_url=`https://api.imgbb.com/1/upload?key=${img_token}`
   const handleRegister = (data) => {
-    const { name, email, password, confirmPassword, photo } = data;
-    console.log(email);
-    // Validate password
-    if (password !== confirmPassword) {
-      alertToast('Passwords do not match');
-      return;
-    }
-
-    // Proceed with registration if password is valid
-    loginUser(email, password)
-      .then((result) => {
-        const user = result.user;
-        updateNameAndPhoto(user, name,email. photo);
-        const NewUser = { name: name, email: email }
-        console.log("NewUser", NewUser);
-        console.log("NewUser", email);
-        fetch('http://localhost:5000/users', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(NewUser)
-        })
+    const formData = new FormData();
+    formData.append('image', data.photo[0]);
+  
+    fetch(img_hosting_url, {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((imgResponse) => {
+        if (imgResponse.data.display_url) {
+          const { name, email, password, confirmPassword } = data;
+          const photo = imgResponse.data.display_url;
+  
+          // Validate password
+          if (password !== confirmPassword) {
+            alertToast('Passwords do not match');
+            return;
+          }
+  
+          // Proceed with registration if password is valid
+          loginUser(email, password)
+            .then((result) => {
+              const user = result.user;
+              updateNameAndPhoto(user, name, email, photo);
+              const newUser = { name: name, email: email, photo: photo };
+              console.log("newUser", newUser);
+  
+              fetch('http://localhost:5000/users', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newUser)
+              })
+                .then(response => response.json())
+                .then(data => {
+                  console.log("User registered successfully:", data);
+                  // Handle successful registration
+                })
+                .catch(error => {
+                  console.error("Error registering user:", error);
+                  // Handle error in registration
+                });
+            })
+            .catch((error) => {
+              wrongToast();
+              console.log(error);
+            });
+        }
       })
       .catch((error) => {
-        wrongToast();
-        console.log(error);
+        console.error(error);
       });
   };
+
 
   const updateNameAndPhoto = (user, name,email, photo) => {
     console.log("NewUser", email);
@@ -119,7 +149,7 @@ const Register = () => {
               <label className="form-label">Photo</label>
               <input
                 {...register('photo', { required: true })}
-                type="text"
+                type="file"
                 className={`form-control ${errors.photo ? 'is-invalid' : ''}`}
               />
               {errors.photo && <div className="invalid-feedback">Photo is required</div>}
@@ -132,5 +162,6 @@ const Register = () => {
     </Container>
   );
 };
+
 
 export default Register;

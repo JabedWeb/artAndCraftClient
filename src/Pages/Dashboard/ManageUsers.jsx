@@ -1,28 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 
 const ManageUsers = () => {
-  const [users, setUsers] = useState([
-    { id: 1, name: 'John Doe', email: 'johndoe@example.com', image: 'user1.jpg', role: 'student' },
-    { id: 2, name: 'Jane Smith', email: 'janesmith@example.com', image: 'user2.jpg', role: 'student' },
-    { id: 3, name: 'Bob Johnson', email: 'bobjohnson@example.com', image: 'user3.jpg', role: 'student' },
-  ]);
+const [users, setUsers] = useState([]);
 
-  const handleMakeInstructor = (userId) => {
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === userId ? { ...user, role: 'instructor' } : user
-      )
-    );
-  };
-
-  const handleMakeAdmin = (userId) => {
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === userId ? { ...user, role: 'admin' } : user
-      )
-    );
-  };
+useEffect(() => {
+    fetch('http://localhost:5000/users')
+    .then(res => res.json())
+    .then(data => {
+        setUsers(data);
+    })
+}, [])
+  const handleMakeInstructor = user =>{
+    fetch(`http://localhost:5000/users/instructor/${user._id}`, {
+        method: 'PATCH'
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+    })
+}
+  const handleMakeAdmin = user =>{
+    fetch(`http://localhost:5000/users/admin/${user._id}`, {
+        method: 'PATCH'
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+    })
+}
 
   return (
     <div>
@@ -39,7 +45,7 @@ const ManageUsers = () => {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id}>
+            <tr key={user._id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>
@@ -50,14 +56,14 @@ const ManageUsers = () => {
                 <Button
                   variant="primary"
                   disabled={user.role === 'instructor' || user.role === 'admin'}
-                  onClick={() => handleMakeInstructor(user.id)}
+                  onClick={() => handleMakeInstructor(user)}
                 >
                   Make Instructor
                 </Button>
                 <Button className='mx-1'
                   variant="danger"
                   disabled={user.role === 'admin'}
-                  onClick={() => handleMakeAdmin(user.id)}
+                  onClick={() => handleMakeAdmin(user)}
                 >
                   Make Admin
                 </Button>

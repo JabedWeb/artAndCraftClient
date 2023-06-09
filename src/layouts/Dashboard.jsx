@@ -32,6 +32,7 @@ export const Dashboard = () => {
         .catch((err) => console.log(err));
     }
   }, [user]);
+  
   console.log(userRole);
   return (
     <>
