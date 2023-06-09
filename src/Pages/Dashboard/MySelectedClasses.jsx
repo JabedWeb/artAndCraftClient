@@ -1,22 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { authContext } from '../../providers/AuthProvider/AuthProvider';
+import UseCart from '../../hooks/UseCart';
 
 const MySelectedClasses = () => {
-  const [selectedClasses, setSelectedClasses] = useState([]);
+  
   const { user } = useContext(authContext);
-  useEffect(() => {
-    // Fetch the classes data from the API
-    fetch('http://localhost:5000/carts?email=' + user.email)
-      .then((response) => response.json())
-      .then((data) => {
-        setSelectedClasses(data);
-      });
-  }, [user.email]);
+
+  const [cart, isLoading] = UseCart();
+
   return (
     <div>
       <h2>My Selected Classes</h2>
-      {selectedClasses.map((classItem) => (
+      {cart.map((classItem) => (
         <Card key={classItem.id}>
           <Card.Body>
             <Card.Title>{classItem.name}</Card.Title>

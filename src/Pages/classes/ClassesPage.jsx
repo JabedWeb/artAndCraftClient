@@ -4,21 +4,15 @@ import './ClassesPage.css'; // Import custom CSS file
 import { authContext } from '../../providers/AuthProvider/AuthProvider';
 import { ToastContext } from '../../providers/AuthProvider/SweetToast';
 import { useNavigate } from 'react-router-dom';
+import UseClasses from '../../hooks/UseClasses';
 
 const ClassesPage = () => {
   const navigate = useNavigate();
   const { addedToast, wrongToast } = useContext(ToastContext);
   const { user } = useContext(authContext);
-  const [classes, setClasses] = React.useState([]);
-  useEffect(() => {
-    fetch('http://localhost:5000/classes')
-      .then((response) => response.json())
-      .then((data) => {
-        setClasses(data);
-      });
-  }, []);
 
 
+  const [classesData, loading] = UseClasses();
   const handleAddToCart = item => {
     const { name, image, price, _id ,instructor} = item;
     console.log(item);
@@ -49,7 +43,7 @@ const ClassesPage = () => {
     <div className='container'>
       <h2>Approved Classes</h2>
       <Row>
-      {classes.map((classItem) => (
+      {classesData.map((classItem) => (
       <Col key={classItem.id} sm={6} md={4} lg={3} className="mb-4">
         <Card className={classItem.availableSeats === 0 ? 'class-card sold-out' : 'class-card'}>
           <Card.Img variant="top" src={classItem.image} alt={classItem.name} />
