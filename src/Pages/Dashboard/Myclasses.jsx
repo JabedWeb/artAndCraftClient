@@ -1,23 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Table, Modal, Button, Form } from 'react-bootstrap';
+import { authContext } from '../../providers/AuthProvider/AuthProvider';
 
 const MyClasses = () => {
-  const [classes, setClasses] = useState([
-    {
-      id: 1,
-      className: 'Art 101',
-      status: 'approved',
-      totalEnrolledStudents: 10,
-      feedback: '',
-    },
-    {
-      id: 2,
-      className: 'Painting Basics',
-      status: 'denied',
-      totalEnrolledStudents: 0,
-      feedback: 'Class content needs improvement',
-    },
-  ]);
+  const [classes, setClasses] = useState([]);
+  const { user } = useContext(authContext);
+
+  useEffect(() => {
+    // Fetch the classes data from the API and filter by the logged in user
+    fetch('http://localhost:5000/classes?email=' + user.email)
+      .then((response) => response.json())
+      .then((data) => {
+        setClasses(data);
+      });
+  }, [user.email]);
 
   const [showModal, setShowModal] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);

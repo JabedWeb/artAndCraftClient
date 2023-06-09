@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
+import UseClasses from '../../hooks/UseClasses';
 
 const PopularInstructorsSection = () => {
-  const [classesData, setClassesData] = useState([]);
+  // const [classesData, setClassesData] = useState([]);
 
-  useEffect(() => {
-    // Fetch the classes data from the API
-    fetch('http://localhost:5000/classes')
-      .then((response) => response.json())
-      .then((data) => setClassesData(data))
-      .catch((error) => console.error(error));
-  }, []);
+  // useEffect(() => {
+  //   // Fetch the classes data from the API
+  //   fetch('http://localhost:5000/classes')
+  //     .then((response) => response.json())
+  //     .then((data) => setClassesData(data))
+  //     .catch((error) => console.error(error));
+  // }, []);
+
+  const [classesData, loading] = UseClasses();
 
   // Generate instructors' data based on the classes' data and calculate total students
   const instructorsData = classesData.reduce((instructors, classItem) => {
