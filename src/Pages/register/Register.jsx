@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import {FaGoogle } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { updateProfile } from 'firebase/auth';
 import PageTitle from '../../components/PageTitle/PageTitle';
@@ -12,7 +13,7 @@ const img_token=import.meta.env.VITE_imag_upload_token;
 console.log("img_token",img_token);
 const Register = () => {
   const navigate = useNavigate();
-  const { loginUser } = useContext(authContext);
+  const { loginUser ,signInGoogle} = useContext(authContext);
   const { successToast, alertToast, wrongToast } = useContext(ToastContext);
 
   const { handleSubmit, register, formState: { errors }, watch } = useForm();
@@ -71,6 +72,35 @@ const Register = () => {
       })
       .catch((error) => {
         console.error(error);
+      });
+  };
+
+  const signInWithGoogle = () => {
+    signInGoogle()
+      .then((result) => {
+        const user = result.user;
+        const { displayName, email, photoURL } = user;
+        const newUser = { name: displayName, email: email, photo: photoURL };
+        fetch('http://localhost:5000/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newUser)
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log("User registered successfully:", data);
+            // Handle successful registration
+            successToast();
+          })
+          .catch(error => {
+            console.error("Error registering user:", error);
+            // Handle error in registration
+          });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -156,6 +186,13 @@ const Register = () => {
             </div>
             <button style={{ backgroundColor: "#617A55", borderRadius: "4px" }} type="submit" className="btn text-light mb-3">Register</button>
           </form>
+          <div className="social_login d-flex justify-content-center flex-wrap">
+            <div className="google_sign">
+              <button style={{ backgroundColor: '#617A55', borderRadius: '4px' }} onClick={signInWithGoogle} className="btn d-flex align-items-center fw-bold px-3 my-2 py-2 text-light me-2">
+                <FaGoogle className="me-1" /> Google LogIn
+              </button>
+            </div>
+          </div>
           <h5 className="text-center mt-2">Already have an account? <Link style={{ color: "#617A55" }} className="text-decoration-none" to="/login">Login</Link></h5>
         </Col>
       </Row>
