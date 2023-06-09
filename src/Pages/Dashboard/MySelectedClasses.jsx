@@ -1,33 +1,29 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
+import { authContext } from '../../providers/AuthProvider/AuthProvider';
 
 const MySelectedClasses = () => {
-  const selectedClasses = [
-    {
-      id: 1,
-      className: 'Class 1',
-      instructor: 'Instructor 1',
-      status: 'Pending',
-    },
-    {
-      id: 2,
-      className: 'Class 2',
-      instructor: 'Instructor 2',
-      status: 'Approved',
-    },
-  ];
-
+  const [selectedClasses, setSelectedClasses] = useState([]);
+  const { user } = useContext(authContext);
+  useEffect(() => {
+    // Fetch the classes data from the API
+    fetch('http://localhost:5000/carts?email=' + user.email)
+      .then((response) => response.json())
+      .then((data) => {
+        setSelectedClasses(data);
+      });
+  }, [user.email]);
   return (
     <div>
       <h2>My Selected Classes</h2>
       {selectedClasses.map((classItem) => (
         <Card key={classItem.id}>
           <Card.Body>
-            <Card.Title>{classItem.className}</Card.Title>
+            <Card.Title>{classItem.name}</Card.Title>
             <Card.Text>
               Instructor: {classItem.instructor}
               <br />
-              Status: {classItem.status}
+              price: {classItem.price}
             </Card.Text>
             <Button variant="danger">Delete</Button>
             <Button variant="primary">Pay</Button>

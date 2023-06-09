@@ -20,10 +20,10 @@ const ClassesPage = () => {
 
 
   const handleAddToCart = item => {
-    const { name, image, price, _id } = item;
+    const { name, image, price, _id ,instructor} = item;
     console.log(item);
     if(user && user.email){
-        const cartItem = {menuItemId: _id, name, image, price, email: user.email}
+        const cartItem = {classItemId: _id, name,instructor, image, price, email: user.email}
         fetch('http://localhost:5000/carts', {
             method: 'POST',
             headers: {
