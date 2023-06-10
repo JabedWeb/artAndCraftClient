@@ -47,7 +47,7 @@ const SweetToast = ({children}) => {
     const updateToast = () => {
         return Swal.fire({
             title: 'Are you sure?',
-            text: "You Can also update this toy later!",
+            text: "You Can also update this classes later!",
             icon: 'info',
             showCancelButton:true,
             confirmButtonColor: '#3085d6',

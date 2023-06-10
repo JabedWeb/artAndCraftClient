@@ -15,18 +15,24 @@ const PopularInstructorsSection = () => {
       .catch((error) => console.error(error));
   }, []);
 
-
-  return (
-    <div className='container'>
-      <h2 className='text-center'>Popular Instructors</h2>
+             
+  return (  
+    <div className='container'>  
+      <h2 className='text-center'>Popular Instructors</h2>  
       <Row>
-        {classesData.map((instructor) => (
-          <Col key={instructor.name} sm={6} md={3} className='mb-4'>
+        {classesData.map((instructor) => (  
+          <Col key={instructor.name} sm={6} md={3} className='mb-4'>  
             <Card className='class-card'>
               <Card.Img className='class-image' variant='top' src={instructor.image} alt={instructor.name} />
               <Card.Body>
-                <Card.Title>{instructor.instructor}</Card.Title>
-                <Card.Text>Students: {instructor.totalEnrolledStudents}</Card.Text>
+                <Card.Title>{instructor.instructor}</Card.Title>  
+
+                <Card.Text><strong>Students : </strong> {instructor.totalEnrolledStudents}</Card.Text>
+                {/* show classes array */}
+                <Card.Text> <strong>Classes:</strong> {instructor.classes.map((className) => (
+                  <span key={className}>{className}, </span>
+                ))}</Card.Text>
+
               </Card.Body>
             </Card>
           </Col>

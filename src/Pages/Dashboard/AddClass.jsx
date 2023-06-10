@@ -22,12 +22,12 @@ const AddClass = () => {
       email,
       image,
       EnrolledStudents: 0,
+      availableSeats : total_sets,
       total_sets,
       price,
       status: 'pending'
     };
     
-    newClass.availableSeats = newClass.total_sets - newClass.EnrolledStudents;
 
       fetch('http://localhost:5000/classes', {
         method: 'POST',

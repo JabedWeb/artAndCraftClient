@@ -10,9 +10,7 @@ const ClassesPage = () => {
   const navigate = useNavigate();
   const { addedToast, wrongToast } = useContext(ToastContext);
   const { user } = useContext(authContext);
-
-
-  const [classesData, loading] = UseClasses();
+  const [classesData,isLoading,refetch] = UseClasses();
   const handleAddToCart = item => {
     const { name, image, price, _id ,instructor} = item;
     console.log(item);
@@ -28,8 +26,28 @@ const ClassesPage = () => {
         .then(res => res.json())
         .then(data => {
             if(data.insertedId){
-              addedToast();
+              fetch('http://localhost:5000/classes/'+_id, {
+                method: 'PATCH',
+                headers: {
+                    'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      availableSeats: item.availableSeats - 1,
+                      EnrolledStudents: item.EnrolledStudents + 1,
+                    }),
+                    })
+                    .then(res =>{ res.json()
+                    })
+                    .then(data => {
+                      refetch();
+                      console.log(item);
+                        if(data.modifiedCount){
+
+                            console.log('updated')
+                        }
+                    })
             }
+            addedToast();
         })
     }
     else{
