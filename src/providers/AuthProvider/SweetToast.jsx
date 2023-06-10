@@ -30,6 +30,13 @@ const SweetToast = ({children}) => {
             text: 'Wrong Credentials',
             })
     }
+    const wrongPurchase = () => {
+        return Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Class already in the cart',
+            })
+    }
 
     const deleteToast = () => {
         return Swal.fire({
@@ -91,7 +98,8 @@ const SweetToast = ({children}) => {
         updateToast,
         addedToast,
         wrongToast,
-        alertToast
+        alertToast,
+        wrongPurchase
     }
 
   return (

@@ -50,7 +50,7 @@ const MySelectedClasses = () => {
         <h4>Number of Classes: {cart.length}</h4>
         <h4>Total: {total}</h4>
       </div>
-      <Table responsive bordered>
+      <Table responsive striped  bordered>
         <thead>
           <tr>
             <th>Serial</th>

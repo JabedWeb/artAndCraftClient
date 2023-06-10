@@ -5,16 +5,25 @@ import { authContext } from '../../providers/AuthProvider/AuthProvider';
 import { ToastContext } from '../../providers/AuthProvider/SweetToast';
 import { useNavigate } from 'react-router-dom';
 import UseClasses from '../../hooks/UseClasses';
+import UseCart from '../../hooks/UseCart';
 
 const ClassesPage = () => {
   const navigate = useNavigate();
-  const { addedToast, wrongToast } = useContext(ToastContext);
+  const { addedToast, wrongToast,wrongPurchase } = useContext(ToastContext);
   const { user } = useContext(authContext);
+  const [cart, , reft] = UseCart();
   const [classesData,isLoading,refetch] = UseClasses();
   const handleAddToCart = item => {
     const { name, image, price, _id ,instructor} = item;
-    console.log(item);
+
+
+
     if(user && user.email){
+      const isCart = cart.find(item => item.classItemId === _id);
+      if(isCart){
+        wrongPurchase();
+        return;
+      }
         const cartItem = {classItemId: _id, name,instructor, image, price, email: user.email}
         fetch('http://localhost:5000/carts', {
             method: 'POST',
@@ -26,6 +35,7 @@ const ClassesPage = () => {
         .then(res => res.json())
         .then(data => {
             if(data.insertedId){
+              reft();
               fetch('http://localhost:5000/classes/'+_id, {
                 method: 'PATCH',
                 headers: {
