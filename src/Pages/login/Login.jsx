@@ -6,8 +6,12 @@ import { useForm } from 'react-hook-form';
 import { authContext } from '../../providers/AuthProvider/AuthProvider';
 import { ToastContext } from '../../providers/AuthProvider/SweetToast.jsx';
 import PageTitle from '../../components/PageTitle/PageTitle';
+import UseUser from '../../hooks/UserUser';
+
+
 
 const Login = () => {
+  const [ReUser]=UseUser();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
@@ -31,15 +35,50 @@ const Login = () => {
   };
 
   const signInWithGoogle = () => {
+    //check if user is already registered or not
+    //if registered then login
+    //else register and then login
     signInGoogle()
       .then((result) => {
-        const user = result.user;
-        console.log(user);
-        navigate(from);
+        console.log(ReUser);
+        const email= result.user.email;
+        const Reuser = ReUser.find((user) => user.email === email);
+        if (Reuser) {
+          successToast();
+          navigate(from);
+        }
+        else {
+          //register
+          const newUser = {
+            name: result.user.displayName,
+            email: result.user.email,
+            photo: result.user.photoURL,
+          };
+          console.log(newUser);
+          fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUser),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              successToast();
+              navigate(from);
+            })
+            .catch((error) => {
+              wrongToast();
+              console.log(error);
+            });
+        }
       })
       .catch((error) => {
+        wrongToast();
         console.log(error);
-      });
+      }
+      );
   };
 
   const [passwordVisible, setPasswordVisible] = useState(false);

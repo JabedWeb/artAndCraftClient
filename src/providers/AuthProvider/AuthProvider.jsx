@@ -3,6 +3,7 @@ import {GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthState
 // eslint-disable-next-line no-unused-vars
 import React,{ createContext, useEffect, useState }  from 'react';
 import app from "../../firebase/firebase.config";
+import UseUser from "../../hooks/UserUser";
 
 
 export const authContext = createContext(null);
@@ -12,6 +13,7 @@ const provider = new GoogleAuthProvider();
 
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({children}) => {
+    const [ReUser]=UseUser();
 
     const [loader,setLoader]=useState(true);
     
@@ -24,7 +26,13 @@ const AuthProvider = ({children}) => {
     }
 
     const signInGoogle=()=>{
-        return signInWithPopup(auth, provider);
+        //check if user is already registered or not
+        //if registered then login
+        //else register and then login
+        // console.log("Reuser",ReUser);
+        // console.log("provider",provider);
+        // console.log("auth",auth);
+        return signInWithPopup(auth, provider)
     }
     const SignOut=()=>{
         return signOut(auth);

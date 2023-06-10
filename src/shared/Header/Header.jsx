@@ -9,6 +9,9 @@ const Header = () => {
 
   const navigate=useNavigate();
   const {user,SignOut}=useContext(authContext);
+
+
+
   const signOut=()=>{
     SignOut()
     .then(()=>

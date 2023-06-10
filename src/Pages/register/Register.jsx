@@ -81,6 +81,7 @@ const Register = () => {
         const user = result.user;
         const { displayName, email, photoURL } = user;
         const newUser = { name: displayName, email: email, photo: photoURL };
+        console.log("newUser", newUser);
         fetch('http://localhost:5000/users', {
           method: 'POST',
           headers: {
@@ -93,6 +94,7 @@ const Register = () => {
             console.log("User registered successfully:", data);
             // Handle successful registration
             successToast();
+            navigate('/');
           })
           .catch(error => {
             console.error("Error registering user:", error);

@@ -8,19 +8,17 @@ const PopularClassesSection = () => {
 
   useEffect(() => {
     // Fetch the classes data from the API
-    fetch('http://localhost:5000/classes')
+    fetch('http://localhost:5000/classes?limit=6')
       .then((response) => response.json())
-      .then((data) => setClassesData(data))
+      .then((data) => setClassesData(data.classes))
       .catch((error) => console.error(error));
   }, []);
-  const sortedClasses = classesData.sort((a, b) => b.EnrolledStudents - a.EnrolledStudents);
-  const topClasses = sortedClasses.slice(0, 6);
 
   return (
     <div className='container'>
       <h2 className='text-center'>Popular Classes</h2>
       <Row>
-        {topClasses.map((classItem) => (
+        {classesData.map((classItem) => (
           <Col key={classItem.id} md={3} className="mb-4">
             <Card className="class-card">
               <div className="class-image">

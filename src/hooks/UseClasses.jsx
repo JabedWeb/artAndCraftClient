@@ -12,7 +12,7 @@ const UseClasses = () => {
       fetch('http://localhost:5000/classes')
         .then((response) => response.json())
         .then((data) =>{
-            setClassesData(data);
+            setClassesData(data.classes);
             setLoading(false);
         })
         .catch((error) => console.error(error));
