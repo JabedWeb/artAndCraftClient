@@ -3,7 +3,8 @@ import {GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthState
 // eslint-disable-next-line no-unused-vars
 import React,{ createContext, useEffect, useState }  from 'react';
 import app from "../../firebase/firebase.config";
-import UseUser from "../../hooks/UserUser";
+import UseUser from "../../hooks/UseUser";
+import axios from "axios";
 
 
 export const authContext = createContext(null);
@@ -26,12 +27,6 @@ const AuthProvider = ({children}) => {
     }
 
     const signInGoogle=()=>{
-        //check if user is already registered or not
-        //if registered then login
-        //else register and then login
-        // console.log("Reuser",ReUser);
-        // console.log("provider",provider);
-        // console.log("auth",auth);
         return signInWithPopup(auth, provider)
     }
     const SignOut=()=>{
@@ -43,11 +38,22 @@ const AuthProvider = ({children}) => {
         const unsubscribe =onAuthStateChanged(auth,(currentUser)=>{
             if(currentUser){
                 setUser(currentUser);
+                //get and set token
+                axios.post('http://localhost:5000/jwt',{email : currentUser.email})
+                .then((res)=>{
+                    localStorage.setItem('token',res.data.token)
+                    console.log(res.data.token);
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+
                 setLoader(false)
             }
             else{
                 setUser(null);
                 setLoader(false)
+                localStorage.removeItem('token')
             }
 
         });

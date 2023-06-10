@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { authContext } from '../../providers/AuthProvider/AuthProvider';
 import { ToastContext } from '../../providers/AuthProvider/SweetToast.jsx';
 import PageTitle from '../../components/PageTitle/PageTitle';
-import UseUser from '../../hooks/UserUser';
+import UseUser from '../../hooks/UseUser';
 
 
 

@@ -1,39 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Table, Modal, Form } from 'react-bootstrap';
+import UseClasses from '../../hooks/UseClasses';
 
 const ManageClasses = () => {
-  const [classes, setClasses] = useState([]);
+  // const [classes, setClasses] = useState([]);
 
-  useEffect(() => {
-    // Fetch the classes data from the API
-    fetch('http://localhost:5000/classes')
-      .then((response) => response.json())
-      .then((data) => setClasses(data))
-      .catch((error) => console.error(error));
-  }, []);
+  // useEffect(() => {
+  //   // Fetch the classes data from the API
+  //   fetch('http://localhost:5000/classes')
+  //     .then((response) => response.json())
+  //     .then((data) => setClasses(data))
+  //     .catch((error) => console.error(error));
+  // }, []);
+
+  const [classesData,isLoading,refetch] = UseClasses();
 
   const [selectedClass, setSelectedClass] = useState(null);
   const [feedback, setFeedback] = useState('');
   const [showModal, setShowModal] = useState(false);
 
   const handleApprove = (classId) => {
-    const updatedClasses = classes.map((cls) => {
-      if (cls.id === classId) {
-        return { ...cls, status: 'approved' };
+    fetch(`http://localhost:5000/classes/${classId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: 'Approved' }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+          refetch();  
       }
-      return cls;
-    });
-    setClasses(updatedClasses);
+      )
   };
 
   const handleDeny = (classId) => {
-    const updatedClasses = classes.map((cls) => {
-      if (cls.id === classId) {
-        return { ...cls, status: 'denied' };
+    fetch(`http://localhost:5000/classes/${classId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: 'Denied' }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+          refetch();  
       }
-      return cls;
-    });
-    setClasses(updatedClasses);
+      )
   };
 
   const handleSendFeedback = () => {
@@ -43,7 +56,7 @@ const ManageClasses = () => {
   };
 
   const openModal = (classId) => {
-    const selectedClass = classes.find((cls) => cls.id === classId);
+    const selectedClass = classesData.find((cls) => cls.id === classId);
     setSelectedClass(selectedClass);
     setShowModal(true);
   };
@@ -59,10 +72,11 @@ const ManageClasses = () => {
       <h2>Manage Classes</h2>
       <Table striped bordered hover responsive>
         <thead>
-          <tr>
-            <th>Class Image</th>
+          <tr className='align-middle text-center'>
+            <th>Serial</th>
             <th>Class Name</th>
-            <th>Instructor Name</th>
+            <th>Class Image</th>
+            <th>Instructor</th>
             <th>Instructor Email</th>
             <th>Available Seats</th>
             <th>Price</th>
@@ -71,19 +85,20 @@ const ManageClasses = () => {
           </tr>
         </thead>
         <tbody>
-          {classes.map((cls) => (
+          {classesData.map((cls,index) => (
             <tr key={cls.id} className='align-middle'>
-              <td>{/* Add class image here */}</td>
-              <td>{cls.className}</td>
+              <td>{index+1}</td>
+              <td>{cls.name}</td>
+              <td className='text-center'><img style={{width:"50px"}} src={cls.image}></img></td>
               <td>{cls.instructor}</td>
               <td>{cls.email}</td>
               <td>{cls.availableSeats}</td>
               <td>{cls.price}</td>
               <td>{cls.status}</td>
               <td className='d-flex flex-column'>
-                {cls.status === 'pending' && (
+                {cls.status === 'Pending' && (
                   <>
-                    <Button variant="success" onClick={() => handleApprove(cls.id)}>
+                    <Button variant="success" onClick={() => handleApprove(cls._id)}>
                       Approve
                     </Button>
                     <Button className='my-1' variant="danger" onClick={() => handleDeny(cls.id)}>

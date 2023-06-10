@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, Table } from 'react-bootstrap';
+import UseUser from '../../hooks/UseUser';
 
 const ManageUsers = () => {
-const [users, setUsers] = useState([]);
+// const [users, setUsers] = useState([]);
 
-useEffect(() => {
-    fetch('http://localhost:5000/users')
-    .then(res => res.json())
-    .then(data => {
-        setUsers(data);
-    })
-}, [])
+// useEffect(() => {
+//     fetch('http://localhost:5000/users')
+//     .then(res => res.json())
+//     .then(data => {
+//         setUsers(data);
+//     })
+// }, [])
+const [users,isLoading,refetch] = UseUser();
   const handleMakeInstructor = user =>{
     fetch(`http://localhost:5000/users/instructor/${user._id}`, {
         method: 'PATCH'
     })
     .then(res => res.json())
     .then(data => {
-        console.log(data);
+      refetch();
+      console.log(data);
     })
 }
   const handleMakeAdmin = user =>{
@@ -26,6 +29,7 @@ useEffect(() => {
     })
     .then(res => res.json())
     .then(data => {
+      refetch();
         console.log(data);
     })
 }
