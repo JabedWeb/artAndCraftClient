@@ -5,11 +5,12 @@ import './CheckoutForm.css'
 import UseAxiosSecure from "../../../hooks/UseAxiosSecure";
 import { authContext } from "../../../providers/AuthProvider/AuthProvider";
 import UseEnrolled from "../../../hooks/useEnrolled";
-
+import UseClasses from "../../../hooks/UseClasses";
 
 const CheckoutForm = ({ cart, price }) => {
     const [, ,refe]=UseEnrolled();
     console.log(cart, 'cart');
+    console.log(cart.classItemId, 'cart Name');
     const stripe = useStripe();
     const elements = useElements();
     const { user } = useContext(authContext);
@@ -18,6 +19,25 @@ const CheckoutForm = ({ cart, price }) => {
     const [clientSecret, setClientSecret] = useState('');
     const [processing, setProcessing] = useState(false);
     const [transactionId, setTransactionId] = useState('');
+
+    const [classesData,,refetch] = UseClasses();
+    console.log(classesData, 'classesData');
+    
+    const classItem = classesData.find(item => item._id === cart.classItemId)
+    console.log(classItem, 'classItem');
+
+
+    //Reduce available seats
+    console.log('price', price);
+    const ReduceAvailableSeats = async () => {
+
+        const res = await axiosSecure.patch(`/classes/${cart.classItemId}`, {
+            availableSeats: classItem.availableSeats - 1,
+            EnrolledStudents: classItem.EnrolledStudents + 1,
+        })
+        console.log(res.data);
+        refetch();
+    }
 
     useEffect(() => {
         if (price > 0) {
@@ -29,6 +49,7 @@ const CheckoutForm = ({ cart, price }) => {
                 })
         }
     }, [price, axiosSecure])
+
 
 
     const handleSubmit = async (event) => {
@@ -99,8 +120,12 @@ const CheckoutForm = ({ cart, price }) => {
             }
             axiosSecure.post('/payments', payment)
                 .then(res => {
+
                     console.log(res.data);
                     refe();
+                    //update enrolled and available seats
+                    ReduceAvailableSeats(cart.classItemId);
+
 
                 })
         }
