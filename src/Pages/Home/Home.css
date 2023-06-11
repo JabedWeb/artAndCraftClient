@@ -78,5 +78,12 @@ body {
       .carousel__cell {
         border:none;
       }
+      .wrapper {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 100px;
+        padding: 100px 0px;
+        align-items: center;
+      }
 }
     

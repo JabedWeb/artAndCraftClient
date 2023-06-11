@@ -91,7 +91,7 @@ const Login = () => {
     <Container>
       <PageTitle title="Login" />
       <Row className="justify-content-center">
-        <Col className="justify-content-center shadow p-5 my-5" md={5}>
+        <Col className="justify-content-center shadow p-lg-4 py-3 my-5" md={5}>
           <form onSubmit={handleSubmit(handleLogin)}>
             <div className="mb-3">
               <label className="form-label">Email address</label>

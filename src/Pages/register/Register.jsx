@@ -127,7 +127,7 @@ const Register = () => {
     <Container>
       <PageTitle title="Register" />
       <Row className="justify-content-center">
-        <Col className="justify-content-center shadow p-5 my-5" md={5}>
+        <Col className="justify-content-center shadow p-lg-5 py-3 my-5" md={5}>
           <form onSubmit={handleSubmit(handleRegister)}>
             <h3 className="text-center">Register</h3>
             <div className="mb-3">

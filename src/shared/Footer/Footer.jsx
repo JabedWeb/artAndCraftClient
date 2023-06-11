@@ -12,7 +12,7 @@ const Footer = () => {
           <Col md={3}>
             <div className="footer__logo">
               <img src="https://img.freepik.com/free-vector/font-design-word-art-craft-with-colorful-crayons_1308-44267.jpg?size=626&ext=jpg&ga=GA1.2.116927386.1683121921&semt=ais" alt="Website Logo" />
-              <h6>Educational Toys</h6>
+              <h6>Art And Craft</h6>
             </div>
           </Col>
           <Col md={3}>
