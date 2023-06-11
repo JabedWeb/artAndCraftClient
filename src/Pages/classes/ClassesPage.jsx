@@ -11,19 +11,19 @@ const ClassesPage = () => {
   const navigate = useNavigate();
   const { addedToast, wrongToast,wrongPurchase } = useContext(ToastContext);
   const { user } = useContext(authContext);
-  const [cart, , reft] = UseCart();
   const [classesData,isLoading,refetch] = UseClasses();
+  //const [cart, , reft] = UseCart();
+
   const handleAddToCart = item => {
+
     const { name, image, price, _id ,instructor} = item;
 
-
-
     if(user && user.email){
-      const isCart = cart.find(item => item.classItemId === _id);
-      if(isCart){
-        wrongPurchase();
-        return;
-      }
+      // const isCart = cart.find(item => item.classItemId === _id);
+      // if(isCart){
+      //   wrongPurchase();
+      //   return;
+      // }
         const cartItem = {classItemId: _id, name,instructor, image, price, email: user.email}
         fetch('http://localhost:5000/carts', {
             method: 'POST',
@@ -35,7 +35,7 @@ const ClassesPage = () => {
         .then(res => res.json())
         .then(data => {
             if(data.insertedId){
-              reft();
+              //reft();
               fetch('http://localhost:5000/classes/'+_id, {
                 method: 'PATCH',
                 headers: {
@@ -52,7 +52,6 @@ const ClassesPage = () => {
                       refetch();
                       console.log(item);
                         if(data.modifiedCount){
-
                             console.log('updated')
                         }
                     })
@@ -61,8 +60,8 @@ const ClassesPage = () => {
         })
     }
     else{
-      wrongToast();
-      navigate('/login');
+        wrongToast();
+        navigate('/login');
     }
 }
 

@@ -1,17 +1,10 @@
 import React from 'react';
 import { Button, Table } from 'react-bootstrap';
 import UseUser from '../../hooks/UseUser';
+import UserAdmin from '../../hooks/UserAdmin';
 
 const ManageUsers = () => {
-// const [users, setUsers] = useState([]);
-
-// useEffect(() => {
-//     fetch('http://localhost:5000/users')
-//     .then(res => res.json())
-//     .then(data => {
-//         setUsers(data);
-//     })
-// }, [])
+  const [userAdmin]=UserAdmin();
 const [users,isLoading,refetch] = UseUser();
   const handleMakeInstructor = user =>{
     fetch(`http://localhost:5000/users/instructor/${user._id}`, {

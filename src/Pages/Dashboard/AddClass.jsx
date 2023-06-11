@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { ToastContext } from '../../providers/AuthProvider/SweetToast';
+import { authContext } from '../../providers/AuthProvider/AuthProvider';
+import UseClasses from '../../hooks/UseClasses';
 
 const AddClass = () => {
+  const {user}=useContext(authContext);
   const { addedToast, wrongToast } = useContext(ToastContext);
+  const [,,refetch] = UseClasses();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +31,7 @@ const AddClass = () => {
       price,
       status: 'pending'
     };
-    
+  
 
       fetch('http://localhost:5000/classes', {
         method: 'POST',
@@ -38,6 +42,7 @@ const AddClass = () => {
       })
         .then((response) => response.json())
         .then((data) => {
+          refetch();
           addedToast();
           console.log('Success:', data);
           // form.reset();
@@ -57,12 +62,12 @@ const AddClass = () => {
         
       <Form.Group controlId="instructorName">
           <Form.Label>Instructor Name</Form.Label>
-          <Form.Control type="text" name='instructorName' />
+          <Form.Control type="text" value={user?.displayName} name='instructorName' />
         </Form.Group>
 
         <Form.Group controlId="instructorEmail">
           <Form.Label>Instructor Email</Form.Label>
-          <Form.Control type="email" name='instructorEmail'/>
+          <Form.Control type="email" value={user?.email} name='instructorEmail'/>
         </Form.Group>
 
 

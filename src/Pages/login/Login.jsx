@@ -130,7 +130,7 @@ const Login = () => {
               </button>
             </div>
           </div>
-          <h5 className="text-center mt-2">Are you a new Toy seller? <Link style={{ color: '#617A55' }} className="text-decoration-none" to="/register">Register</Link></h5>
+          <h5 className="text-center mt-2">Are you a new register? <Link style={{ color: '#617A55' }} className="text-decoration-none" to="/register">Register</Link></h5>
         </Col>
       </Row>
     </Container>

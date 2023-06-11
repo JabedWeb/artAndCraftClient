@@ -1,25 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Table, Modal, Button, Form } from 'react-bootstrap';
 import { authContext } from '../../providers/AuthProvider/AuthProvider';
+import UseClasses from '../../hooks/UseClasses';
 
 const MyClasses = () => {
-  const [classes, setClasses] = useState([]);
+ // const [classes, setClasses] = useState([]);
   const { user } = useContext(authContext);
 
-  useEffect(() => {
-    // Fetch the classes data from the API and filter by the logged in user
-    fetch('http://localhost:5000/classes?email=' + user.email)
-      .then((response) => response.json())
-      .then((data) => {
-        setClasses(data);
-      });
-  }, [user.email]);
+  const [classesData,isLoading,refetch]=UseClasses();
+
+  const classes=classesData.filter((classItem) => classItem.email === user.email);
 
   const [showModal, setShowModal] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
 
   const handleUpdateClick = (classId) => {
-    const selected = classes.find((classItem) => classItem.id === classId);
+    const selected = classes.find((classItem) => classItem._id === classId);
     setSelectedClass(selected);
     setShowModal(true);
   };
@@ -31,15 +27,21 @@ const MyClasses = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    // Simulating API call to update class information
-    const updatedClasses = classes.map((classItem) => {
-      if (classItem.id === selectedClass.id) {
-        return selectedClass;
+    const form =event.target;
+    const name=form.name.value;
+    console.log(name);
+    fetch(`http://localhost:5000/classes/${selectedClass._id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+          refetch();
       }
-      return classItem;
-    });
-    setClasses(updatedClasses);
-    // Close the modal
+      )
     handleModalClose();
   };
 
@@ -58,16 +60,16 @@ const MyClasses = () => {
         </thead>
         <tbody>
           {classes.map((classItem) => (
-            <tr key={classItem.id}>
-              <td>{classItem.className}</td>
+            <tr key={classItem._id}>
+              <td>{classItem.name}</td>
               <td>{classItem.status}</td>
-              <td>{classItem.totalEnrolledStudents}</td>
+              <td>{classItem.EnrolledStudents}</td>
               <td>{classItem.status === 'denied' ? classItem.feedback : '-'}</td>
               <td>
                 {classItem.status === 'denied' ? (
                   <button disabled>Update</button>
                 ) : (
-                  <button onClick={() => handleUpdateClick(classItem.id)}>Update</button>
+                  <button onClick={() => handleUpdateClick(classItem._id)}>Update</button>
                 )}
               </td>
             </tr>
@@ -86,10 +88,8 @@ const MyClasses = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter class name"
-                value={selectedClass ? selectedClass.className : ''}
-                onChange={(e) =>
-                  setSelectedClass({ ...selectedClass, className: e.target.value })
-                }
+                name="name"
+                defaultValue={selectedClass?.name}
               />
             </Form.Group>
             {/* Add other form fields for updating class information */}

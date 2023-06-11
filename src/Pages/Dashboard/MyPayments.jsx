@@ -1,37 +1,28 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import UseEnrolled from '../../hooks/useEnrolled';
 
 const MyPayments = () => {
-  const paymentHistory = [
-    {
-      id: 1,
-      paymentDate: '2022-01-01',
-      amount: 100,
-    },
-    {
-      id: 2,
-      paymentDate: '2022-02-01',
-      amount: 150,
-    },
-  ];
-
+  const [enrolled,isLoading,refe] = UseEnrolled();
   return (
     <div>
       <h2>Payment History</h2>
-      <Table striped bordered>
+      <Table striped bordered responsive>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>TransactionId</th>
             <th>Date</th>
             <th>Amount</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          {paymentHistory.map((payment) => (
-            <tr key={payment.id}>
-              <td>{payment.id}</td>
-              <td>{payment.paymentDate}</td>
-              <td>{payment.amount}</td>
+          {enrolled.map((payment) => (
+            <tr key={payment._id}>
+              <td>{payment.transactionId}</td>
+              <td>{new Date(payment.date).toLocaleDateString('en-US', { dateStyle: 'full' })}</td>
+              <td>{payment.price}</td>
+              <td>{payment.status}</td>
             </tr>
           ))}
         </tbody>
@@ -39,5 +30,6 @@ const MyPayments = () => {
     </div>
   );
 };
+
 
 export default MyPayments;
