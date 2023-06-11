@@ -24,7 +24,7 @@ const Header = () => {
   }
 
   return (
-    <Navbar collapseOnSelect expand="lg" style={{backgroundColor:"#0C134F"}} variant="dark">
+    <Navbar className='nav_link' collapseOnSelect expand="lg" style={{backgroundColor:"#0C134F"}} variant="dark">
       <Container>
         <Navbar.Brand ><Link className='text-decoration-none text-light' to={'/'}><img style={{width:"80px"}} src='https://w7.pngwing.com/pngs/933/435/png-transparent-sydney-education-school-products-australia-student-sydney-text-logo-educational-toys.png' alt='Art and Craft'></img></Link></Navbar.Brand>
         <Navbar.Brand ><Link className='text-decoration-none text-light' to={'/'}>Art And Craft</Link></Navbar.Brand>
@@ -40,12 +40,12 @@ const Header = () => {
           <Nav className='align-items-center'>
             {
                 user &&
-                <Link className='text-light mx-3' to={'/dashboard'}>Dashboard</Link>
+                <Link className='text-light ' to={'/dashboard'}>Dashboard</Link>
             }
             {
               user &&
               
-                <Link className='text-light mx-3' onClick={signOut}>
+                <Link className='text-light ' onClick={signOut}>
               LogOut
             </Link>
               }

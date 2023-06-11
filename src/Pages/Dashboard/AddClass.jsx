@@ -29,7 +29,7 @@ const AddClass = () => {
       availableSeats : total_sets,
       total_sets,
       price,
-      status: 'pending'
+      status: 'Pending'
     };
   
 

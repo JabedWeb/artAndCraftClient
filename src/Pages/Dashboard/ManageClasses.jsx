@@ -96,7 +96,7 @@ const ManageClasses = () => {
               <td>{cls.price}</td>
               <td>{cls.status}</td>
               <td className='d-flex flex-column'>
-                {cls.status === 'Pending' && (
+                {cls.status === 'Pending'  && (
                   <>
                     <Button variant="success" onClick={() => handleApprove(cls._id)}>
                       Approve
