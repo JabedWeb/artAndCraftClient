@@ -5,13 +5,14 @@ import UseAxiosSecure from '../../hooks/UseAxiosSecure';
 import { authContext } from '../../providers/AuthProvider/AuthProvider';
 import { ToastContext } from '../../providers/AuthProvider/SweetToast';
 import { useNavigate } from 'react-router-dom';
+import './PopularClassesSection.css';
 
 const PopularClassesSection = () => {
 
   const [classesData, setClassesData] = useState([]);
   const navigate = useNavigate();
   const { addedToast, wrongToast,wrongPurchase } = useContext(ToastContext);
-  const { user } = useContext(authContext);
+  const { user,loader } = useContext(authContext);
   //const [cart, , reft] = UseCart();
   const [axiosSecure] = UseAxiosSecure();
   const [,,refetch] = UseClasses();
@@ -24,6 +25,27 @@ const PopularClassesSection = () => {
       .then((data) => setClassesData(data.classes))
       .catch((error) => console.error(error));
   }, []);
+
+
+  const [userRole, setUserRole] = useState(null);
+
+
+  useEffect(() => {
+    if (user) {
+      axiosSecure
+        .get(`/users/${user.email}`)
+        .then((res) => {
+          setUserRole(res.data.role);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      if (!loader) {
+        navigate('/login');
+      }
+    }
+  }, [user]);
+
+  console.log("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",userRole);
 
 
   const handleAddToCart = item => {
@@ -78,7 +100,7 @@ const PopularClassesSection = () => {
             <Card.Text>Available Seats: {classItem.availableSeats}</Card.Text>
             <Card.Text>EnrolledStudents Seats: {classItem.EnrolledStudents}</Card.Text>
             <Card.Text>Price: ${classItem.price}</Card.Text>
-            <Button onClick={() => handleAddToCart(classItem)}  disabled={classItem.availableSeats === 0 || classItem.isLoggedUserAdmin} variant="primary">
+            <Button onClick={() => handleAddToCart(classItem)}  disabled={classItem.availableSeats === 0 || userRole=='admin' || userRole=='instructor'} variant="primary">
               {classItem.availableSeats === 0 ? 'Sold Out' : 'Select'}
             </Button>
           </Card.Body>

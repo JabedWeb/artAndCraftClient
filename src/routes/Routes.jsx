@@ -14,6 +14,7 @@ import AddClass from "../Pages/Dashboard/AddClass";
 import MyClasses from "../Pages/Dashboard/MyClasses";
 import ManageUsers from "../Pages/Dashboard/ManageUsers";
 import ManageClasses from "../Pages/Dashboard/ManageClasses";
+import Error from "../Pages/Error/Error";
 
   const router = createBrowserRouter([
     {
@@ -82,6 +83,10 @@ import ManageClasses from "../Pages/Dashboard/ManageClasses";
         }
         
       ],
+    },
+    {
+      path: "*",
+      element: <Error></Error>
     }
     
   ]);

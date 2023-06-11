@@ -4,9 +4,7 @@ import UseClasses from '../../hooks/UseClasses';
 
 const PopularInstructorsSection = () => {
 
-
   const [classesData, setClassesData] = useState([]);
-
   useEffect(() => {
     // Fetch the classes data from the API
     fetch('http://localhost:5000/classes')

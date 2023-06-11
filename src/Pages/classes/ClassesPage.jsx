@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import './ClassesPage.css'; // Import custom CSS file
 import { authContext } from '../../providers/AuthProvider/AuthProvider';
@@ -16,9 +16,32 @@ const ClassesPage = () => {
   //const [cart, , reft] = UseCart();
   const [axiosSecure] = UseAxiosSecure();
 
+
+  const [userRole, setUserRole] = useState(null);
+
+
+  useEffect(() => {
+    if (user) {
+      axiosSecure
+        .get(`/users/${user.email}`)
+        .then((res) => {
+          setUserRole(res.data.role);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      if (!loader) {
+        navigate('/login');
+      }
+    }
+  }, [user]);
+
+  console.log("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",userRole);
+
   const handleAddToCart = item => {
 
     const { name, image, price, _id ,instructor} = item;
+
+
 
 
     if(user && user.email){
@@ -59,14 +82,14 @@ const ClassesPage = () => {
       <Row>
       {classesData.map((classItem) => (
       <Col key={classItem.id} sm={6} md={4} lg={3} className="mb-4">
-        <Card className={classItem.availableSeats === 0 ? 'class-card sold-out' : 'class-card'}>
+        <Card className={classItem.availableSeats === 0  ? 'class-card sold-out' : 'class-card'}>
           <Card.Img variant="top" src={classItem.image} alt={classItem.name} />
           <Card.Body>
             <Card.Title>{classItem.name}</Card.Title>
             <Card.Text>Instructor: {classItem.instructor}</Card.Text>
             <Card.Text>Available Seats: {classItem.availableSeats}</Card.Text>
             <Card.Text>Price: ${classItem.price}</Card.Text>
-            <Button onClick={() => handleAddToCart(classItem)}  disabled={classItem.availableSeats === 0 || classItem.isLoggedUserAdmin} variant="primary">
+            <Button onClick={() => handleAddToCart(classItem)}  disabled={classItem.availableSeats === 0 || userRole=='admin' || userRole=='instructor'} variant="primary">
               {classItem.availableSeats === 0 ? 'Sold Out' : 'Select'}
             </Button>
           </Card.Body>
