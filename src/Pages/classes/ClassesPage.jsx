@@ -56,17 +56,8 @@ const ClassesPage = () => {
         .then(res => res.data)
         .then(data => {
           if(data.insertedId){
-            //reft();
-            axiosSecure.patch('/classes/'+_id, {
-              availableSeats: item.availableSeats - 1,
-              EnrolledStudents: item.EnrolledStudents + 1,
-            })
-            .then(res =>{ res.data
               refetch();
               addedToast();
-            }
-            )
-            .catch(err => console.log(err))
           }
         })
         .catch(err => console.log(err))

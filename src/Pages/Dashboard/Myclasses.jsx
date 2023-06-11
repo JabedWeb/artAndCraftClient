@@ -64,7 +64,7 @@ const MyClasses = () => {
               <td>{classItem.name}</td>
               <td>{classItem.status}</td>
               <td>{classItem.EnrolledStudents}</td>
-              <td>{classItem.status === 'denied' ? classItem.feedback : '-'}</td>
+              <td>{ classItem.feedback}</td>
               <td>
                 {classItem.status === 'denied' ? (
                   <button disabled>Update</button>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Table, Modal, Form } from 'react-bootstrap';
 import UseClasses from '../../hooks/UseClasses';
+import UseAxiosSecure from '../../hooks/UseAxiosSecure';
 
 const ManageClasses = () => {
   // const [classes, setClasses] = useState([]);
@@ -12,6 +13,8 @@ const ManageClasses = () => {
   //     .then((data) => setClasses(data))
   //     .catch((error) => console.error(error));
   // }, []);
+  const [axiosSecure] = UseAxiosSecure();
+
 
   const [classesData,isLoading,refetch] = UseClasses();
 
@@ -50,13 +53,14 @@ const ManageClasses = () => {
   };
 
   const handleSendFeedback = () => {
-    // Handle sending feedback to the instructor here
-    // You can use the feedback state to get the feedback message
+    const res=axiosSecure.patch(`/classes/${selectedClass._id}`, { feedback : feedback })
+    console.log(res);
     setShowModal(false);
   };
 
   const openModal = (classId) => {
-    const selectedClass = classesData.find((cls) => cls.id === classId);
+    console.log(classId, "classId");
+    const selectedClass = classesData.find((cls) => cls._id === classId);
     setSelectedClass(selectedClass);
     setShowModal(true);
   };
@@ -101,14 +105,14 @@ const ManageClasses = () => {
                     <Button variant="success" onClick={() => handleApprove(cls._id)}>
                       Approve
                     </Button>
-                    <Button className='my-1' variant="danger" onClick={() => handleDeny(cls.id)}>
+                    <Button className='my-1' variant="danger" onClick={() => handleDeny(cls._id)}>
                       Deny
-                    </Button>
-                    <Button variant="primary" onClick={() => openModal(cls.id)}>
-                      Send Feedback
                     </Button>
                   </>
                 )}
+                  <Button variant="primary" onClick={() => openModal(cls._id)}>
+                      Send Feedback
+                </Button>
               </td>
             </tr>
           ))}

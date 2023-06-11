@@ -6,11 +6,13 @@ import UseAxiosSecure from "../../../hooks/UseAxiosSecure";
 import { authContext } from "../../../providers/AuthProvider/AuthProvider";
 import UseEnrolled from "../../../hooks/useEnrolled";
 import UseClasses from "../../../hooks/UseClasses";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = ({ cart, price }) => {
+    const navigate = useNavigate();
     const [, ,refe]=UseEnrolled();
-    console.log(cart, 'cart');
-    console.log(cart.classItemId, 'cart Name');
+    // console.log(cart, 'cart');
+    // console.log(cart.classItemId, 'cart Name');
     const stripe = useStripe();
     const elements = useElements();
     const { user } = useContext(authContext);
@@ -125,8 +127,7 @@ const CheckoutForm = ({ cart, price }) => {
                     refe();
                     //update enrolled and available seats
                     ReduceAvailableSeats(cart.classItemId);
-
-
+                    navigate('/dashboard/enrolledClass')
                 })
         }
     }
