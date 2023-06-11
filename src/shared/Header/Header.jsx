@@ -26,7 +26,7 @@ const Header = () => {
   return (
     <Navbar className='nav_link' collapseOnSelect expand="lg" style={{backgroundColor:"#0C134F"}} variant="dark">
       <Container>
-        <Navbar.Brand ><Link className='text-decoration-none text-light' to={'/'}><img style={{width:"80px"}} src='https://w7.pngwing.com/pngs/933/435/png-transparent-sydney-education-school-products-australia-student-sydney-text-logo-educational-toys.png' alt='Art and Craft'></img></Link></Navbar.Brand>
+        <Navbar.Brand ><Link className='text-decoration-none text-light' to={'/'}><img style={{width:"80px"}} src='https://img.freepik.com/free-vector/font-design-word-art-craft-with-colorful-crayons_1308-44267.jpg?size=626&ext=jpg&ga=GA1.2.116927386.1683121921&semt=ais' alt='Art and Craft'></img></Link></Navbar.Brand>
         <Navbar.Brand ><Link className='text-decoration-none text-light' to={'/'}>Art And Craft</Link></Navbar.Brand>
     
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

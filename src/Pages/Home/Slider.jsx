@@ -2,6 +2,7 @@ import React from "react"
 import { useKeenSlider } from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
 import "./Home.css"
+import { Link } from "react-router-dom"
 
 const carousel = (slider) => {
   const z = 300
@@ -37,32 +38,25 @@ const Slider=()=> {
         <div className="carousel__cell number-slide1">
         <div className="d-flex align-items-center flex-column">
             <img src="https://media.istockphoto.com/id/507451973/photo/little-boy-painting-bird-house.jpg?s=612x612&w=0&k=20&c=HMU5aqKqtySe0bnWO3YITHRvxSxrPgtsTr21SahcX34=" alt="" />
-            <h2 className="text-center">Art and Craft</h2>
-            <button className="text-center m-auto">See Our Classes</button>
+            <h2 className="text-center"> Learn and Fun</h2>
+            <button><Link  to={'/classes'} className="text-center m-auto text-decoration-none text-white">Explore Class</Link></button>
+            
         </div>
         </div>
         <div className="carousel__cell number-slide3">
         <div className="d-flex align-items-center flex-column">
             <img src="https://media.istockphoto.com/id/612263694/vector/kids-creativity-creation-symbols-vector-set.jpg?s=612x612&w=0&k=20&c=02NSrPOAdR_0jNnwrb2l0mg3kVIIs_-SvuWVkP23XOM=" alt="" />
-            <h2 className="text-center">Creative Arts</h2>
-            <button className="text-center m-auto">Join Now</button>
+            <h2 className="text-center"> Art and Craft </h2>
+            <button><Link  to={'/register'} className="text-center m-auto text-decoration-none text-white">Join Now</Link></button>
         </div>
         </div>
         <div className="carousel__cell number-slide4">
         <div className="d-flex align-items-center flex-column">
             <img src="https://img-c.udemycdn.com/course/480x270/5210972_6b39.jpg" alt="" />
-            <h2 className="text-center">Drawing Workshop</h2>
-            <button className="text-center m-auto">Learn More</button>
+            <h2 className="text-center">Let's learn </h2>
+            <button><Link  to={'/instructors'} className="text-center m-auto text-decoration-none text-white">Our Instructor</Link></button>
         </div>
         </div>
-        <div className="carousel__cell number-slide5">
-        <div className="d-flex align-items-center flex-column">
-            <img src="https://media.istockphoto.com/id/878517132/vector/kids-art-craft-education-creativity-class-vector-banner-poster-with-white-cloud-shape-paper.jpg?s=612x612&w=0&k=20&c=htXVDvunjznoyMvum7QBBUQO6cgFkX6gM1M7JLdVS_w=" alt="" />
-            <h2 className="text-center">Crafting Fun</h2>
-            <button className="text-center m-auto">Join the Fun</button>
-        </div>
-</div>
-
         </div>
       </div>
     </div>

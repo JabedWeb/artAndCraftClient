@@ -6,65 +6,52 @@ import { ToastContext } from '../../providers/AuthProvider/SweetToast';
 import { useNavigate } from 'react-router-dom';
 import UseClasses from '../../hooks/UseClasses';
 import UseCart from '../../hooks/UseCart';
+import UseAxiosSecure from '../../hooks/UseAxiosSecure';
 
 const ClassesPage = () => {
   const navigate = useNavigate();
   const { addedToast, wrongToast,wrongPurchase } = useContext(ToastContext);
-  const { user } = useContext(authContext);
+  const { user,loader } = useContext(authContext);
   const [classesData,isLoading,refetch] = UseClasses();
   //const [cart, , reft] = UseCart();
+  const [axiosSecure] = UseAxiosSecure();
 
   const handleAddToCart = item => {
 
     const { name, image, price, _id ,instructor} = item;
 
+
     if(user && user.email){
-      // const isCart = cart.find(item => item.classItemId === _id);
-      // if(isCart){
-      //   wrongPurchase();
-      //   return;
+      // if(cart.length > 0){
+      //       const isCart = cart.find(item => item.classItemId === _id);
+      //       if(isCart){
+      //       wrongPurchase();
+      //       }
       // }
         const cartItem = {classItemId: _id, name,instructor, image, price, email: user.email}
-        fetch('http://localhost:5000/carts', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(cartItem)
-        })
-        .then(res => res.json())
+        axiosSecure.post('/carts', cartItem)
+        .then(res => res.data)
         .then(data => {
-            if(data.insertedId){
-              //reft();
-              fetch('http://localhost:5000/classes/'+_id, {
-                method: 'PATCH',
-                headers: {
-                    'content-type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                      availableSeats: item.availableSeats - 1,
-                      EnrolledStudents: item.EnrolledStudents + 1,
-                    }),
-                    })
-                    .then(res =>{ res.json()
-                    })
-                    .then(data => {
-                      refetch();
-                      console.log(item);
-                        if(data.modifiedCount){
-                            console.log('updated')
-                        }
-                    })
+          if(data.insertedId){
+            //reft();
+            axiosSecure.patch('/classes/'+_id, {
+              availableSeats: item.availableSeats - 1,
+              EnrolledStudents: item.EnrolledStudents + 1,
+            })
+            .then(res =>{ res.data
+              refetch();
+              addedToast();
             }
-            addedToast();
+            )
+            .catch(err => console.log(err))
+          }
         })
+        .catch(err => console.log(err))
+    }else{
+      wrongToast();
+      navigate('/login');
     }
-    else{
-        wrongToast();
-        navigate('/login');
-    }
-}
-
+  }
 
   return (
     <div className='container'>

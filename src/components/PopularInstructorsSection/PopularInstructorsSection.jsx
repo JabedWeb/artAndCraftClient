@@ -17,8 +17,8 @@ const PopularInstructorsSection = () => {
 
              
   return (  
-    <div className='container'>  
-      <h2 className='text-center'>Popular Instructors</h2>  
+    <div className='container mt-5'>  
+      <h2 className='text-center mb-4'>Popular Instructors</h2>  
       <Row>
         {classesData.map((instructor) => (  
           <Col key={instructor.name} sm={6} md={3} className='mb-4'>  
