@@ -8,7 +8,7 @@ const ManageClasses = () => {
 
   // useEffect(() => {
   //   // Fetch the classes data from the API
-  //   fetch('https://art-craf-server-jabedweb.vercel.app/classes')
+  //   fetch('http://localhost:5000/classes')
   //     .then((response) => response.json())
   //     .then((data) => setClasses(data))
   //     .catch((error) => console.error(error));
@@ -23,7 +23,7 @@ const ManageClasses = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleApprove = (classId) => {
-    fetch(`https://art-craf-server-jabedweb.vercel.app/classes/${classId}`, {
+    fetch(`http://localhost:5000/classes/${classId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const ManageClasses = () => {
   };
 
   const handleDeny = (classId) => {
-    fetch(`https://art-craf-server-jabedweb.vercel.app/classes/${classId}`, {
+    fetch(`http://localhost:5000/classes/${classId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

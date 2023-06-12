@@ -3,7 +3,6 @@ import {GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthState
 // eslint-disable-next-line no-unused-vars
 import React,{ createContext, useEffect, useState }  from 'react';
 import app from "../../firebase/firebase.config";
-import UseUser from "../../hooks/UseUser";
 import axios from "axios";
 
 
@@ -14,7 +13,6 @@ const provider = new GoogleAuthProvider();
 
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({children}) => {
-    const [ReUser]=UseUser();
 
     const [loader,setLoader]=useState(true);
     
@@ -39,7 +37,7 @@ const AuthProvider = ({children}) => {
             if(currentUser){
                 setUser(currentUser);
                 //get and set token
-                axios.post('https://art-craf-server-jabedweb.vercel.app/jwt',{email : currentUser.email})
+                axios.post('http://localhost:5000/jwt',{email : currentUser.email})
                 .then((res)=>{
                     localStorage.setItem('token',res.data.token)
                     console.log(res);

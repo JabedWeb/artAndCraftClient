@@ -17,6 +17,15 @@ const ClassesPage = () => {
 
   const [userRole, setUserRole] = useState(null);
 
+  const [approvedClasses,setApprovedClasses]=useState([])
+
+  useEffect(()=>{
+    if(classesData.length>0){
+      const approvedClasses=classesData.filter(item=>item.status==='Approved')
+      setApprovedClasses(approvedClasses)
+    }
+  }
+  ,[classesData])
 
   useEffect(() => {
     if (user) {
@@ -58,7 +67,7 @@ const ClassesPage = () => {
     <div className='container'>
       <h2 className='text-center mt-4 mb-5'>Approved Classes</h2>
       <Row>
-      {classesData.map((classItem) => (
+      {approvedClasses.map((classItem) => (
       <Col key={classItem.id} sm={6} md={4} lg={3} className="mb-4">
         <Card className={classItem.availableSeats === 0  ? 'class-card sold-out' : 'class-card'}>
           <Card.Img variant="top" src={classItem.image} alt={classItem.name} />

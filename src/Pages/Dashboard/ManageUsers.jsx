@@ -7,7 +7,7 @@ const ManageUsers = () => {
   const [userAdmin]=UserAdmin();
 const [users,isLoading,refetch] = UseUser();
   const handleMakeInstructor = user =>{
-    fetch(`https://art-craf-server-jabedweb.vercel.app/users/instructor/${user._id}`, {
+    fetch(`http://localhost:5000/users/instructor/${user._id}`, {
         method: 'PATCH'
     })
     .then(res => res.json())
@@ -17,7 +17,7 @@ const [users,isLoading,refetch] = UseUser();
     })
 }
   const handleMakeAdmin = user =>{
-    fetch(`https://art-craf-server-jabedweb.vercel.app/users/admin/${user._id}`, {
+    fetch(`http://localhost:5000/users/admin/${user._id}`, {
         method: 'PATCH'
     })
     .then(res => res.json())
@@ -41,7 +41,7 @@ const [users,isLoading,refetch] = UseUser();
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {users?.map((user) => (
             <tr key={user._id}>
               <td>{user.name}</td>
               <td>{user.email}</td>

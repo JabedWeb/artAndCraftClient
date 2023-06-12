@@ -6,12 +6,8 @@ import { useForm } from 'react-hook-form';
 import { authContext } from '../../providers/AuthProvider/AuthProvider';
 import { ToastContext } from '../../providers/AuthProvider/SweetToast.jsx';
 import PageTitle from '../../components/PageTitle/PageTitle';
-import UseUser from '../../hooks/UseUser';
-
-
 
 const Login = () => {
-  const [ReUser]=UseUser();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
@@ -19,6 +15,10 @@ const Login = () => {
   const { user, signIn, signInGoogle } = useContext(authContext);
   const { successToast, wrongToast } = useContext(ToastContext);
   const { handleSubmit, register, formState: { errors } } = useForm();
+
+  if(user){
+    navigate(from);
+  }
 
   const handleLogin = (data) => {
     const { email, password } = data;
@@ -46,7 +46,7 @@ const Login = () => {
             photo: result.user.photoURL,
           };
           console.log(newUser);
-          fetch('https://art-craf-server-jabedweb.vercel.app/users', {
+          fetch('http://localhost:5000/users', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

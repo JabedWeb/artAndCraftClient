@@ -48,6 +48,7 @@ import PrivateRoute from "./PrivateRoute";
     },
     {
       path: "dashboard",
+      // element: <Dashboard /> ,
       element: <PrivateRoute><Dashboard /></PrivateRoute> ,
       children: [
         {

@@ -51,8 +51,8 @@ const Header = () => {
               }
                 {
               !user && <Nav className='me-auto navbar_custom'>
-              <Link className='text-decoration-none text-light' to={'/login'}>Login</Link>
-            <Link className='text-decoration-none text-light' to={'/register'}>Register</Link>
+              <Link style={{backgroundColor:"#6772e5",borderRadius:"4px"}} className='text-decoration-none text-light' to={'/login'}>Login</Link>
+  
             </Nav>
                 }
            {user && <div className="profile">

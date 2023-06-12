@@ -13,7 +13,10 @@ const img_token=import.meta.env.VITE_imag_upload_token;
 console.log("img_token",img_token);
 const Register = () => {
   const navigate = useNavigate();
-  const { loginUser ,signInGoogle} = useContext(authContext);
+  const {user, loginUser ,signInGoogle} = useContext(authContext);
+  if(user){
+    navigate('/');
+  }
   const { successToast, alertToast, wrongToast } = useContext(ToastContext);
 
   const { handleSubmit, register, formState: { errors }, watch } = useForm();
@@ -47,7 +50,7 @@ const Register = () => {
               const newUser = { name: name, email: email, photo: photo };
               console.log("newUser", newUser);
   
-              fetch('https://art-craf-server-jabedweb.vercel.app/users', {
+              fetch('http://localhost:5000/users', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
@@ -82,7 +85,7 @@ const Register = () => {
         const { displayName, email, photoURL } = user;
         const newUser = { name: displayName, email: email, photo: photoURL };
         console.log("newUser", newUser);
-        fetch('https://art-craf-server-jabedweb.vercel.app/users', {
+        fetch('http://localhost:5000/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

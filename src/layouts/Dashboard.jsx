@@ -4,6 +4,9 @@ import { authContext } from '../providers/AuthProvider/AuthProvider';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import UseAxiosSecure from '../hooks/UseAxiosSecure';
 import './Dashboard.css'; // Import custom CSS file for styling
+import { FaAmazonPay, FaBookOpen, FaBookReader, FaHome, FaRegPlusSquare, FaUserCog, FaWarehouse} from 'react-icons/fa';
+import { BiLogOutCircle } from "react-icons/bi";
+import { SiGoogleclassroom } from "react-icons/si";
 
 export const Dashboard = () => {
 
@@ -53,28 +56,28 @@ export const Dashboard = () => {
           <Nav variant="pills" className="flex-column">
             {userRole === 'student' && (
               <>
-                <Link to="/dashboard/selectedClass">Selected Class</Link>
-                <Link to="/dashboard/enrolledClass">Enrolled Class</Link>
-                <Link to="/dashboard/PaymentList">Payment History</Link>
+                <Link to="/dashboard/selectedClass"> <FaBookOpen></FaBookOpen> Selected Class</Link>
+                <Link to="/dashboard/enrolledClass"> <FaBookReader></FaBookReader> Enrolled Class</Link>
+                <Link to="/dashboard/PaymentList"> <FaAmazonPay></FaAmazonPay> Payment History</Link>
               </>
             )}
             {userRole === 'instructor' && (
               <>
-                <Link to="/dashboard/addClass">Add Class</Link>
-                <Link to="/dashboard/myClasses">My Class</Link>
+                <Link to="/dashboard/addClass"> <FaRegPlusSquare></FaRegPlusSquare> Add Class</Link>
+                <Link to="/dashboard/myClasses"> <FaWarehouse></FaWarehouse> My Class</Link>
               </>
             )}
             {userRole === 'admin' && (
               <>
-                <Link to="/dashboard/manageUsers">Manage Users</Link>
-                <Link to="/dashboard/manageClasses">Manage Classes</Link>
+                <Link to="/dashboard/manageUsers"><FaUserCog></FaUserCog> Manage Users</Link>
+                <Link to="/dashboard/manageClasses">  <SiGoogleclassroom></SiGoogleclassroom> Manage Classes</Link>
               </>
             )}
             <hr />
 
-            <Link to="/">Home</Link>
-            <Link to="/classes">Classes</Link>
-            <Link onClick={signOut} to="/about">Logout</Link>
+            <Link to="/"> <FaHome></FaHome> Home</Link>
+            <Link to="/classes"><SiGoogleclassroom></SiGoogleclassroom> Classes</Link>
+            <Link onClick={signOut} to="/about"> <BiLogOutCircle></BiLogOutCircle>  Logout</Link>
 
           </Nav>
         </Col>
