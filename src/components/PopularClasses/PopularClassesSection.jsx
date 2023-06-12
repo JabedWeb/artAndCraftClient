@@ -19,7 +19,7 @@ const PopularClassesSection = () => {
 
   useEffect(() => {
     // Fetch the classes data from the API
-    fetch('http://localhost:5000/classes?limit=6&status=Approved')
+    fetch('https://art-craf-server-jabedweb.vercel.app/classes?limit=6&status=Approved')
       .then((response) => response.json())
       .then((data) => setClassesData(data.classes))
       .catch((error) => console.error(error));

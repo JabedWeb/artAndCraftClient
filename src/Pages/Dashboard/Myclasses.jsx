@@ -30,7 +30,7 @@ const MyClasses = () => {
     const form =event.target;
     const name=form.name.value;
     console.log(name);
-    fetch(`http://localhost:5000/classes/${selectedClass._id}`, {
+    fetch(`https://art-craf-server-jabedweb.vercel.app/classes/${selectedClass._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

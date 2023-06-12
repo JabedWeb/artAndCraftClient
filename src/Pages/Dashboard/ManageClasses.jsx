@@ -19,7 +19,7 @@ const ManageClasses = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleApprove = (classId) => {
-    fetch(`http://localhost:5000/classes/${classId}`, {
+    fetch(`https://art-craf-server-jabedweb.vercel.app/classes/${classId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ const ManageClasses = () => {
   };
 
   const handleDeny = (classId) => {
-    fetch(`http://localhost:5000/classes/${classId}`, {
+    fetch(`https://art-craf-server-jabedweb.vercel.app/classes/${classId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

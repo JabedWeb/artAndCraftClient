@@ -7,7 +7,7 @@ const UseClasses = () => {
     const {data:classesData=[],isLoading,refetch}=useQuery({
         queryKey:['classesData'],
         queryFn: async () => {
-            const response = await fetch(`http://localhost:5000/classes`);
+            const response = await fetch(`https://art-craf-server-jabedweb.vercel.app/classes`);
             const data = await response.json();
             return data.classes;
         }

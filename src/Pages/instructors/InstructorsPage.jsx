@@ -7,7 +7,7 @@ const InstructorsPage = () => {
 
   useEffect(() => {
     // Fetch the classes data from the API
-    fetch('http://localhost:5000/classes')
+    fetch('https://art-craf-server-jabedweb.vercel.app/classes')
       .then((response) => response.json())
       .then((data) => setClassesData(data.popularInstructors))
       

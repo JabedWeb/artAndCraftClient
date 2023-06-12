@@ -33,7 +33,7 @@ const AddClass = () => {
     };
   
 
-      fetch('http://localhost:5000/classes', {
+      fetch('https://art-craf-server-jabedweb.vercel.app/classes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
