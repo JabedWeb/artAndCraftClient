@@ -5,15 +5,13 @@ import { authContext } from '../../providers/AuthProvider/AuthProvider';
 import { ToastContext } from '../../providers/AuthProvider/SweetToast';
 import { useNavigate } from 'react-router-dom';
 import UseClasses from '../../hooks/UseClasses';
-import UseCart from '../../hooks/UseCart';
 import UseAxiosSecure from '../../hooks/UseAxiosSecure';
 
 const ClassesPage = () => {
   const navigate = useNavigate();
   const { addedToast, wrongToast,wrongPurchase } = useContext(ToastContext);
   const { user,loader } = useContext(authContext);
-  const [classesData,isLoading,refetch] = UseClasses();
-  //const [cart, , reft] = UseCart();
+  const [classesData,,refetch] = UseClasses();
   const [axiosSecure] = UseAxiosSecure();
 
 
@@ -28,14 +26,9 @@ const ClassesPage = () => {
           setUserRole(res.data.role);
         })
         .catch((err) => console.log(err));
-    } else {
-      if (!loader) {
-        navigate('/login');
-      }
     }
   }, [user]);
 
-  console.log("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",userRole);
 
   const handleAddToCart = item => {
 
@@ -45,12 +38,6 @@ const ClassesPage = () => {
 
 
     if(user && user.email){
-      // if(cart.length > 0){
-      //       const isCart = cart.find(item => item.classItemId === _id);
-      //       if(isCart){
-      //       wrongPurchase();
-      //       }
-      // }
         const cartItem = {classItemId: _id, name,instructor, image, price, email: user.email}
         axiosSecure.post('/carts', cartItem)
         .then(res => res.data)
@@ -69,7 +56,7 @@ const ClassesPage = () => {
 
   return (
     <div className='container'>
-      <h2>Approved Classes</h2>
+      <h2 className='text-center mt-4 mb-5'>Approved Classes</h2>
       <Row>
       {classesData.map((classItem) => (
       <Col key={classItem.id} sm={6} md={4} lg={3} className="mb-4">

@@ -10,6 +10,7 @@ const InstructorsPage = () => {
     fetch('http://localhost:5000/classes')
       .then((response) => response.json())
       .then((data) => setClassesData(data.popularInstructors))
+      
       .catch((error) => console.error(error));
   }, []);
 
@@ -19,7 +20,7 @@ const InstructorsPage = () => {
       <h2 className='text-center'>Popular Instructors</h2>  
       <Row>
         {classesData.map((instructor) => (  
-          <Col key={instructor.name} sm={6} md={3} className='mb-4'>  
+          <Col key={instructor._id} sm={6} md={3} className='mb-4'>  
             <Card className='class-card'>
               <Card.Img className='class-image' variant='top' src={instructor.image} alt={instructor.name} />
               <Card.Body>

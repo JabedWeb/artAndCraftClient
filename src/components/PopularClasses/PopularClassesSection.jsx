@@ -13,7 +13,6 @@ const PopularClassesSection = () => {
   const navigate = useNavigate();
   const { addedToast, wrongToast,wrongPurchase } = useContext(ToastContext);
   const { user,loader } = useContext(authContext);
-  //const [cart, , reft] = UseCart();
   const [axiosSecure] = UseAxiosSecure();
   const [,,refetch] = UseClasses();
   
@@ -38,14 +37,9 @@ const PopularClassesSection = () => {
           setUserRole(res.data.role);
         })
         .catch((err) => console.log(err));
-    } else {
-      if (!loader) {
-        navigate('/login');
-      }
     }
   }, [user]);
 
-  console.log("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",userRole);
 
 
   const handleAddToCart = item => {
@@ -54,12 +48,6 @@ const PopularClassesSection = () => {
 
 
     if(user && user.email){
-      // if(cart.length > 0){
-      //       const isCart = cart.find(item => item.classItemId === _id);
-      //       if(isCart){
-      //       wrongPurchase();
-      //       }
-      // }
         const cartItem = {classItemId: _id, name,instructor, image, price, email: user.email}
         axiosSecure.post('/carts', cartItem)
         .then(res => res.data)

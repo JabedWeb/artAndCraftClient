@@ -11,6 +11,7 @@ const Home = () => {
         <PopularClassesSection></PopularClassesSection>
         <PopularInstructorsSection></PopularInstructorsSection>
         <BenifitSection></BenifitSection>
+
     </>
   )
 }

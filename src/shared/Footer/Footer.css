@@ -1,5 +1,13 @@
 .footer {
-    background-color: #f8f9fa;
+    background-color:#0c134f;
+    padding-top: 40px;
+  }
+.footer .container .row {
+    color: #fff;
+  }
+  
+.footer a {
+    color: #fff;
     padding-top: 40px;
   }
   
@@ -24,8 +32,8 @@
   }
   
   .footer__menu a {
-    color: #333;
     text-decoration: none;
+    color: #fff;
     transition: color 0.3s ease-in-out;
   }
   
@@ -56,7 +64,7 @@
   }
   
   .social-icons a {
-    color: #333;
+    color:#fff;
     font-size: 20px;
     transition: color 0.3s ease-in-out;
   }
@@ -66,14 +74,12 @@
   }
   
   .footer__bottom {
-    background-color: #e9ecef;
     padding: 20px 0;
     text-align: center;
   }
   
   .footer__bottom p {
     margin: 0;
-    color: #888;
     font-size: 14px;
   }
   
