@@ -19,6 +19,7 @@ const AddClass = () => {
     const image = form.classImage.value;
     const total_sets = parseInt(form.total_seats.value);
     const price = parseInt(form.price.value);
+    const instructor_photo = user?.photoURL;
 
     const newClass = {
       name,
@@ -29,6 +30,7 @@ const AddClass = () => {
       availableSeats : total_sets,
       total_sets,
       price,
+      instructor_photo,
       status: 'Pending'
     };
   

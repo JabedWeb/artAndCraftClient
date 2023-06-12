@@ -43,9 +43,6 @@ const ClassesPage = () => {
 
     const { name, image, price, _id ,instructor} = item;
 
-
-
-
     if(user && user.email){
         const cartItem = {classItemId: _id, name,instructor, image, price, email: user.email}
         axiosSecure.post('/carts', cartItem)

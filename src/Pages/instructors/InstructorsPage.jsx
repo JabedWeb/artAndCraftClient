@@ -22,7 +22,7 @@ const InstructorsPage = () => {
         {classesData.map((instructor) => (  
           <Col key={instructor._id} sm={6} md={3} className='mb-4'>  
             <Card className='class-card'>
-              <Card.Img className='class-image' variant='top' src={instructor.image} alt={instructor.name} />
+              <Card.Img className='class-image' variant='top' src={instructor.instructor_photo} alt={instructor.name} />
               <Card.Body>
                 <Card.Title>{instructor.instructor}</Card.Title>  
 
