@@ -35,6 +35,7 @@ const AuthProvider = ({children}) => {
     useEffect(()=>{
         const unsubscribe =onAuthStateChanged(auth,(currentUser)=>{
             if(currentUser){
+                console.log("user is logged in");
                 setUser(currentUser);
                 //get and set token
                 axios.post('http://localhost:5000/jwt',{email : currentUser.email})
@@ -50,6 +51,7 @@ const AuthProvider = ({children}) => {
                 setLoader(false)
             }
             else{
+                console.log("user is not logged in");
                 setUser(null);
                 setLoader(false)
                 localStorage.removeItem('token')

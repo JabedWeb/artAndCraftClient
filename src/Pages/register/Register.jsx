@@ -22,7 +22,9 @@ const Register = () => {
   const { handleSubmit, register, formState: { errors }, watch } = useForm();
 
   const img_hosting_url=`https://api.imgbb.com/1/upload?key=${img_token}`
+  console.log("img_hosting_url",img_hosting_url);
   const handleRegister = (data) => {
+    console.log(data.photo[0],"data.photo[0]");
     const formData = new FormData();
     formData.append('image', data.photo[0]);
   
@@ -32,6 +34,7 @@ const Register = () => {
     })
       .then((response) => response.json())
       .then((imgResponse) => {
+        console.log(imgResponse);
         if (imgResponse.data.display_url) {
           const { name, email, password, confirmPassword } = data;
           const photo = imgResponse.data.display_url;

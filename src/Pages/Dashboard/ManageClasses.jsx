@@ -2,18 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, Table, Modal, Form } from 'react-bootstrap';
 import UseClasses from '../../hooks/UseClasses';
 import UseAxiosSecure from '../../hooks/UseAxiosSecure';
+import UseUser from '../../hooks/UseUser';
 
 const ManageClasses = () => {
-  // const [classes, setClasses] = useState([]);
-
-  // useEffect(() => {
-  //   // Fetch the classes data from the API
-  //   fetch('http://localhost:5000/classes')
-  //     .then((response) => response.json())
-  //     .then((data) => setClasses(data))
-  //     .catch((error) => console.error(error));
-  // }, []);
   const [axiosSecure] = UseAxiosSecure();
+
+  const[users,,]=UseUser();
+  console.log(users,"okkkkkkkkkkkkkkkkkkkk");
+  console.log(users);
 
 
   const [classesData,isLoading,refetch] = UseClasses();

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Button, Table } from 'react-bootstrap';
 import UseUser from '../../hooks/UseUser';
-import UserAdmin from '../../hooks/UserAdmin';
+//import UserAdmin from '../../hooks/UserAdmin';
 
 const ManageUsers = () => {
-  const [userAdmin]=UserAdmin();
+  // const [userAdmin]=UserAdmin();
 const [users,isLoading,refetch] = UseUser();
+console.log(users,"okkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
   const handleMakeInstructor = user =>{
     fetch(`http://localhost:5000/users/instructor/${user._id}`, {
         method: 'PATCH'

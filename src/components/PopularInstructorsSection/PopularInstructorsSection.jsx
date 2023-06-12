@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-import UseClasses from '../../hooks/UseClasses';
 
 const PopularInstructorsSection = () => {
+
 
   const [classesData, setClassesData] = useState([]);
   useEffect(() => {

@@ -28,7 +28,6 @@ const PopularClassesSection = () => {
 
   const [userRole, setUserRole] = useState(null);
 
-
   useEffect(() => {
     if (user) {
       axiosSecure
