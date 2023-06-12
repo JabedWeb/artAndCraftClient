@@ -15,7 +15,7 @@ const MySelectedClasses = () => {
     deleteToast().then((result) => {
       if (result.isConfirmed) {
         Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-        fetch('http://localhost:5000/carts/' + id, {
+        fetch('https://art-craf-server-jabedweb.vercel.app/carts/' + id, {
           method: 'DELETE',
           headers: {
             'content-type': 'application/json',

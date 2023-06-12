@@ -40,22 +40,13 @@ const Login = () => {
     //else register and then login
     signInGoogle()
       .then((result) => {
-        console.log(ReUser);
-        const email= result.user.email;
-        const Reuser = ReUser.find((user) => user.email === email);
-        if (Reuser) {
-          successToast();
-          navigate(from);
-        }
-        else {
-          //register
           const newUser = {
             name: result.user.displayName,
             email: result.user.email,
             photo: result.user.photoURL,
           };
           console.log(newUser);
-          fetch('http://localhost:5000/users', {
+          fetch('https://art-craf-server-jabedweb.vercel.app/users', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -72,7 +63,6 @@ const Login = () => {
               wrongToast();
               console.log(error);
             });
-        }
       })
       .catch((error) => {
         wrongToast();

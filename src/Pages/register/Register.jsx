@@ -47,7 +47,7 @@ const Register = () => {
               const newUser = { name: name, email: email, photo: photo };
               console.log("newUser", newUser);
   
-              fetch('http://localhost:5000/users', {
+              fetch('https://art-craf-server-jabedweb.vercel.app/users', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
@@ -82,7 +82,7 @@ const Register = () => {
         const { displayName, email, photoURL } = user;
         const newUser = { name: displayName, email: email, photo: photoURL };
         console.log("newUser", newUser);
-        fetch('http://localhost:5000/users', {
+        fetch('https://art-craf-server-jabedweb.vercel.app/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

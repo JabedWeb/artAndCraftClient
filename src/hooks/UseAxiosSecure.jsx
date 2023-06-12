@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { authContext } from '../providers/AuthProvider/AuthProvider';
 
 const axiosSecure = axios.create({
-  baseURL: 'http://localhost:5000', 
+  baseURL: 'https://art-craf-server-jabedweb.vercel.app', 
 });
 
 const UseAxiosSecure = () => {

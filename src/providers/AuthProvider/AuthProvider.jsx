@@ -39,7 +39,7 @@ const AuthProvider = ({children}) => {
             if(currentUser){
                 setUser(currentUser);
                 //get and set token
-                axios.post('http://localhost:5000/jwt',{email : currentUser.email})
+                axios.post('https://art-craf-server-jabedweb.vercel.app/jwt',{email : currentUser.email})
                 .then((res)=>{
                     localStorage.setItem('token',res.data.token)
                     console.log(res);
