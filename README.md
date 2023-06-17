@@ -34,7 +34,7 @@ Visit the live site [here](https://artandcraft-5a453.web.app/).
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/programming-hero-web-course1/b712-summer-camp-client-side-JabedWeb`
+1. Clone the repository: `git clone https://github.com/JabedWeb/artAndCraftClient`
 2. Install dependencies: `npm install`
 
 ## Usage
